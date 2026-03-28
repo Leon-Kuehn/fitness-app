@@ -435,3 +435,169 @@ export const weeklyCalories: { day: string; calories: number; goal: number }[] =
   { day: format(subDays(new Date(), 1), "EEE"), calories: 2090, goal: 2200 },
   { day: format(new Date(), "EEE"), calories: 1840, goal: 2200 },
 ];
+
+// ─── Gym Finder Types ────────────────────────────────────────────────────
+
+export interface GymFinderGym {
+  id: string;
+  name: string;
+  address: string;
+  lat: number;
+  lon: number;
+  rating: number;
+  amenities: string[];
+  isHansefit: boolean;
+  is24h: boolean;
+  phone: string;
+  openToday: string;
+  distanceKm: string;
+}
+
+export const mockGymFinderGyms: GymFinderGym[] = [
+  {
+    id: "gf1",
+    name: "FitZone Premium",
+    address: "Kaiserstuhlstraße 12, 79110 Freiburg",
+    lat: 48.0034,
+    lon: 7.8274,
+    rating: 4.7,
+    amenities: ["Sauna", "Pool", "WiFi", "Parkplatz"],
+    isHansefit: true,
+    is24h: false,
+    phone: "+49 761 123 4567",
+    openToday: "06:00 – 22:00",
+    distanceKm: "1.2",
+  },
+  {
+    id: "gf2",
+    name: "Clever Fit Freiburg",
+    address: "Bissierstraße 16, 79114 Freiburg",
+    lat: 48.0,
+    lon: 7.855,
+    rating: 4.3,
+    amenities: ["WiFi", "Parkplatz"],
+    isHansefit: true,
+    is24h: true,
+    phone: "+49 761 234 5678",
+    openToday: "24h geöffnet",
+    distanceKm: "2.5",
+  },
+  {
+    id: "gf3",
+    name: "McFIT Freiburg",
+    address: "Merzhauserstraße 28, 79100 Freiburg",
+    lat: 47.994,
+    lon: 7.838,
+    rating: 4.0,
+    amenities: ["WiFi"],
+    isHansefit: false,
+    is24h: true,
+    phone: "+49 761 345 6789",
+    openToday: "24h geöffnet",
+    distanceKm: "3.1",
+  },
+  {
+    id: "gf4",
+    name: "Fitness First Freiburg",
+    address: "Rotteckring 12, 79098 Freiburg",
+    lat: 47.998,
+    lon: 7.843,
+    rating: 4.5,
+    amenities: ["Sauna", "Pool", "WiFi", "Parkplatz"],
+    isHansefit: true,
+    is24h: false,
+    phone: "+49 761 456 7890",
+    openToday: "07:00 – 22:00",
+    distanceKm: "2.8",
+  },
+  {
+    id: "gf5",
+    name: "CrossFit Freiburg",
+    address: "Güterbahnhofstraße 7, 79108 Freiburg",
+    lat: 48.012,
+    lon: 7.861,
+    rating: 4.8,
+    amenities: ["WiFi"],
+    isHansefit: false,
+    is24h: false,
+    phone: "+49 761 567 8901",
+    openToday: "06:00 – 21:00",
+    distanceKm: "0.8",
+  },
+];
+
+// ─── Achievement Types ───────────────────────────────────────────────────
+
+export interface Achievement {
+  id: string;
+  icon: string;
+  name: string;
+  description: string;
+  unlockHint: string;
+  category: "workout" | "streak" | "nutrition" | "strength" | "gym" | "ai";
+  xpReward: number;
+  unlocked: boolean;
+  unlockedDate?: string;
+}
+
+export const mockAchievements: Achievement[] = [
+  { id: "a1", icon: "🏋️", name: "Erste Einheit", description: "Dein erstes Workout abgeschlossen", unlockHint: "Schließe dein erstes Workout ab", category: "workout", xpReward: 50, unlocked: true, unlockedDate: "01.01.2025" },
+  { id: "a2", icon: "🏋️", name: "10 Workouts", description: "10 Workouts erfolgreich abgeschlossen", unlockHint: "Schließe 10 Workouts ab", category: "workout", xpReward: 100, unlocked: true, unlockedDate: "15.01.2025" },
+  { id: "a3", icon: "🏋️", name: "50 Workouts", description: "50 Workouts – du bist ein Profi!", unlockHint: "Schließe 50 Workouts ab", category: "workout", xpReward: 300, unlocked: true, unlockedDate: "20.02.2025" },
+  { id: "a4", icon: "🏋️", name: "100 Workouts", description: "100 Workouts – Legende!", unlockHint: "Schließe 100 Workouts ab", category: "workout", xpReward: 500, unlocked: false },
+  { id: "a5", icon: "🔥", name: "3 Tage Streak", description: "3 Tage in Folge trainiert", unlockHint: "Trainiere 3 Tage hintereinander", category: "streak", xpReward: 30, unlocked: true, unlockedDate: "05.01.2025" },
+  { id: "a6", icon: "🔥", name: "7 Tage Streak", description: "Eine Woche am Stück!", unlockHint: "Trainiere 7 Tage hintereinander", category: "streak", xpReward: 75, unlocked: true, unlockedDate: "10.01.2025" },
+  { id: "a7", icon: "🔥", name: "30 Tage Streak", description: "30 Tage Streak – unglaublich!", unlockHint: "Trainiere 30 Tage hintereinander", category: "streak", xpReward: 200, unlocked: true, unlockedDate: "01.02.2025" },
+  { id: "a8", icon: "🔥", name: "100 Tage Streak", description: "100 Tage – du bist nicht aufzuhalten", unlockHint: "Trainiere 100 Tage hintereinander", category: "streak", xpReward: 1000, unlocked: false },
+  { id: "a9", icon: "🥗", name: "7 Tage Kalorien", description: "7 Tage lang Kalorien getrackt", unlockHint: "Tracke 7 Tage in Folge deine Kalorien", category: "nutrition", xpReward: 80, unlocked: true, unlockedDate: "12.01.2025" },
+  { id: "a10", icon: "🥗", name: "Makroziel erreicht", description: "Alle Makros an einem Tag getroffen", unlockHint: "Erreiche alle Makroziele an einem Tag", category: "nutrition", xpReward: 60, unlocked: false },
+  { id: "a11", icon: "💪", name: "Neues PR", description: "Ein neues Gewichts-Persönlichkeitsrekord gesetzt", unlockHint: "Setze ein neues Gewichts-PR", category: "strength", xpReward: 100, unlocked: true, unlockedDate: "20.01.2025" },
+  { id: "a12", icon: "💪", name: "3 PRs in einer Woche", description: "3 neue PRs in einer Woche – stark!", unlockHint: "Setze 3 PRs in einer Woche", category: "strength", xpReward: 250, unlocked: false },
+  { id: "a13", icon: "🗺️", name: "Studio verbunden", description: "Dein erstes Studio verbunden", unlockHint: "Verbinde ein Studio in deinem Profil", category: "gym", xpReward: 50, unlocked: true, unlockedDate: "01.01.2025" },
+  { id: "a14", icon: "🗺️", name: "50 Check-ins", description: "50 Mal im Studio eingecheckt", unlockHint: "Checke 50 Mal ein", category: "gym", xpReward: 200, unlocked: false },
+  { id: "a15", icon: "🤖", name: "Erster KI-Tipp", description: "Den ersten KI-Tipp erhalten", unlockHint: "Nutze den KI-Coach einmal", category: "ai", xpReward: 30, unlocked: true, unlockedDate: "03.01.2025" },
+  { id: "a16", icon: "🤖", name: "10 KI-Gespräche", description: "10 Gespräche mit dem KI-Coach", unlockHint: "Führe 10 Gespräche mit dem KI-Coach", category: "ai", xpReward: 100, unlocked: false },
+];
+
+// ─── Workout History Types ───────────────────────────────────────────────
+
+export interface WorkoutHistoryEntry {
+  id: string;
+  date: string;
+  name: string;
+  durationMin: number;
+  volumeKg: number;
+  exercisesCount: number;
+  muscleGroups: string[];
+  exercises: { name: string; sets: string }[];
+}
+
+export const mockWorkoutHistory: WorkoutHistoryEntry[] = [
+  { id: "wh1", date: "2025-03-27", name: "Push Day A", durationMin: 65, volumeKg: 4200, exercisesCount: 6, muscleGroups: ["Brust", "Schultern", "Trizeps"], exercises: [{ name: "Bankdrücken", sets: "4×8 × 80 kg" }, { name: "Schulterdrücken", sets: "3×10 × 50 kg" }, { name: "Schrägbankdrücken", sets: "3×10 × 60 kg" }, { name: "Seitenheben", sets: "3×15 × 10 kg" }, { name: "Trizeps-Drücken", sets: "3×12 × 30 kg" }, { name: "Butterfly", sets: "3×12 × 40 kg" }] },
+  { id: "wh2", date: "2025-03-25", name: "Pull Day B", durationMin: 60, volumeKg: 3800, exercisesCount: 5, muscleGroups: ["Rücken", "Bizeps"], exercises: [{ name: "Klimmzüge", sets: "4×8 × +20 kg" }, { name: "Kreuzheben", sets: "3×5 × 140 kg" }, { name: "Rudern", sets: "4×10 × 70 kg" }, { name: "Bizeps-Curls", sets: "3×12 × 15 kg" }, { name: "Hammer Curls", sets: "3×12 × 14 kg" }] },
+  { id: "wh3", date: "2025-03-23", name: "Leg Day", durationMin: 70, volumeKg: 6500, exercisesCount: 6, muscleGroups: ["Beine", "Gesäß"], exercises: [{ name: "Kniebeuge", sets: "4×5 × 120 kg" }, { name: "Beinpresse", sets: "4×12 × 180 kg" }, { name: "Ausfallschritte", sets: "3×10 × 40 kg" }, { name: "Beinstrecker", sets: "3×15 × 60 kg" }, { name: "Beinbeuger", sets: "3×15 × 50 kg" }, { name: "Wadenheben", sets: "4×15 × 80 kg" }] },
+  { id: "wh4", date: "2025-03-20", name: "Push Day B", durationMin: 62, volumeKg: 4100, exercisesCount: 6, muscleGroups: ["Brust", "Schultern", "Trizeps"], exercises: [{ name: "Bankdrücken", sets: "4×8 × 82.5 kg" }, { name: "Schulterdrücken", sets: "3×10 × 50 kg" }, { name: "Dips", sets: "3×12 × +10 kg" }, { name: "Seitenheben", sets: "3×15 × 10 kg" }, { name: "Trizeps-Drücken", sets: "3×12 × 32.5 kg" }, { name: "Kabelkreuzen", sets: "3×15 × 20 kg" }] },
+  { id: "wh5", date: "2025-03-18", name: "Pull Day A", durationMin: 58, volumeKg: 3600, exercisesCount: 5, muscleGroups: ["Rücken", "Bizeps"], exercises: [{ name: "Klimmzüge", sets: "4×8 × +20 kg" }, { name: "Kreuzheben", sets: "3×5 × 140 kg" }, { name: "Rudern", sets: "4×10 × 72.5 kg" }, { name: "Bizeps-Curls", sets: "3×12 × 15 kg" }, { name: "Face Pulls", sets: "3×15 × 20 kg" }] },
+  { id: "wh6", date: "2025-03-15", name: "Leg Day", durationMin: 68, volumeKg: 6200, exercisesCount: 6, muscleGroups: ["Beine", "Gesäß"], exercises: [{ name: "Kniebeuge", sets: "4×5 × 115 kg" }, { name: "Beinpresse", sets: "4×12 × 175 kg" }, { name: "Ausfallschritte", sets: "3×10 × 37.5 kg" }, { name: "Beinstrecker", sets: "3×15 × 57.5 kg" }, { name: "Beinbeuger", sets: "3×15 × 47.5 kg" }, { name: "Wadenheben", sets: "4×15 × 75 kg" }] },
+  { id: "wh7", date: "2025-03-12", name: "Full Body", durationMin: 75, volumeKg: 5000, exercisesCount: 7, muscleGroups: ["Brust", "Rücken", "Beine"], exercises: [{ name: "Bankdrücken", sets: "3×8 × 80 kg" }, { name: "Kniebeuge", sets: "3×8 × 100 kg" }, { name: "Klimmzüge", sets: "3×8 BW" }, { name: "Schulterdrücken", sets: "3×10 × 45 kg" }, { name: "Kreuzheben", sets: "3×5 × 120 kg" }, { name: "Bizeps-Curls", sets: "3×12 × 12.5 kg" }, { name: "Trizeps-Drücken", sets: "3×12 × 27.5 kg" }] },
+];
+
+// Heatmap data: 12 weeks × 7 days
+export interface HeatmapDay {
+  date: string;
+  intensity: 0 | 1 | 2 | 3; // 0=none, 1=light, 2=medium, 3=intense
+}
+
+export function generateHeatmapData(): HeatmapDay[] {
+  const days: HeatmapDay[] = [];
+  const today = new Date();
+  for (let i = 83; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(today.getDate() - i);
+    const dateStr = d.toISOString().slice(0, 10);
+    const rand = Math.random();
+    const intensity: 0 | 1 | 2 | 3 = rand < 0.45 ? 0 : rand < 0.65 ? 1 : rand < 0.85 ? 2 : 3;
+    days.push({ date: dateStr, intensity });
+  }
+  return days;
+}

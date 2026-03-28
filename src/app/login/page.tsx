@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Dumbbell, ShieldCheck, Check, Sparkles } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -111,6 +112,13 @@ export default function LoginPage() {
         <Sparkles className="h-3.5 w-3.5 text-[#6366f1]" />
         <span>Demo mode — no real authentication required</span>
       </div>
+
+      <p className="text-center text-xs text-[#737373] mt-4">
+        Neu hier?{" "}
+        <Link href="/onboarding" className="text-[#6366f1] hover:underline">
+          Onboarding starten
+        </Link>
+      </p>
     </div>
   );
 }
