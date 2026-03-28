@@ -1,4 +1,4 @@
-import { Outlet, NavLink, useLocation } from 'react-router-dom'
+import { Outlet, NavLink } from 'react-router-dom'
 import {
   LayoutDashboard,
   Dumbbell,
@@ -17,10 +17,8 @@ const navItems = [
   { to: '/progress', icon: TrendingUp, label: 'Progress' },
 ]
 
-export function Layout() {
+export default function Layout() {
   const [mobileOpen, setMobileOpen] = useState(false)
-  const location = useLocation()
-
   return (
     <div className="flex h-screen bg-gray-950 overflow-hidden">
       {/* Sidebar Desktop */}
@@ -30,7 +28,7 @@ export function Layout() {
             <Zap className="w-5 h-5 text-white" />
           </div>
           <span className="text-xl font-bold text-white">FitFlow</span>
-          <span className="ml-auto badge badge-green">Free</span>
+          <span className="ml-auto text-xs text-green-400 bg-green-400/10 px-2 py-0.5 rounded-full">Free</span>
         </div>
         <nav className="flex-1 px-3 py-4 space-y-1">
           {navItems.map(({ to, icon: Icon, label }) => (
@@ -52,11 +50,10 @@ export function Layout() {
         </nav>
         <div className="px-4 py-4 border-t border-gray-800">
           <p className="text-xs text-gray-500 text-center">
-            FitFlow v0.1.0 &bull; Open Source
+            FitFlow v0.1.0 • Open Source
           </p>
         </div>
       </aside>
-
       {/* Mobile Header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 py-3 bg-gray-900 border-b border-gray-800">
         <div className="flex items-center gap-2">
@@ -72,7 +69,6 @@ export function Layout() {
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
-
       {/* Mobile Nav Overlay */}
       {mobileOpen && (
         <div
@@ -105,7 +101,6 @@ export function Layout() {
           </div>
         </div>
       )}
-
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto lg:p-8 p-4 pt-20 lg:pt-8">
         <Outlet />
