@@ -1,0 +1,20 @@
+"use client";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/contexts/AuthContext";
+
+export default function LogoutPage() {
+  const { logout } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    logout();
+    router.push("/login");
+  }, [logout, router]);
+
+  return (
+    <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center">
+      <p className="text-[#737373] text-sm">Signing out…</p>
+    </div>
+  );
+}
