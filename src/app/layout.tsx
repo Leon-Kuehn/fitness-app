@@ -7,20 +7,31 @@ import { ThemeProvider } from "@/contexts/ThemeContext";
 import { CookieConsentProvider } from "@/components/ui/CookieBanner";
 import { Footer } from "@/components/layout/Footer";
 import { LayoutClient } from "@/components/layout/LayoutClient";
+import { PWAInstaller } from "@/components/PWAInstaller";
+import { InstallPrompt } from "@/components/ui/InstallPrompt";
 
 export const metadata: Metadata = {
   title: { default: "FitTrack", template: "%s | FitTrack" },
   description: "Your personal fitness tracking app — Open Source & Free",
+  manifest: "/fitness-app/manifest.json",
   openGraph: {
     title: "FitTrack",
     description: "Your personal fitness tracking app",
     type: "website",
+  },
+  other: {
+    "theme-color": "#6366f1",
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "black-translucent",
   },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="de" suppressHydrationWarning>
+      <head>
+        <link rel="apple-touch-icon" href="/fitness-app/icon-192.png" />
+      </head>
       <body className="antialiased bg-[#0f0f0f] text-[#f5f5f5]">
         <a
           href="#main-content"
@@ -39,6 +50,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             </AuthProvider>
           </ThemeProvider>
         </LanguageProvider>
+        <PWAInstaller />
+        <InstallPrompt />
       </body>
     </html>
   );

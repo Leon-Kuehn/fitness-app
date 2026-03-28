@@ -1,13 +1,20 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { MapPin, Clock, Phone, Search } from "lucide-react";
+import { MapPin, Clock, Phone, Search, ChevronsLeft, ChevronsRight } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { mockGymFinderGyms, GymFinderGym } from "@/lib/mock-data";
 import { cn } from "@/lib/utils";
 
-const GymMap = dynamic(() => import("@/components/map/GymMap"), { ssr: false });
+const GymMap = dynamic(() => import("@/components/map/GymMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full min-h-[400px] bg-[#1a1a1a] animate-pulse rounded-xl flex items-center justify-center">
+      <div className="text-[#737373] text-sm">Karte wird geladen...</div>
+    </div>
+  ),
+});
 
 const FILTER_CHIPS = ["Alle", "Hansefit", "24h geöffnet", "Mit Pool", "Mit Sauna", "Crossfit"];
 
@@ -83,6 +90,20 @@ export default function GymsPage() {
   const [activeFilter, setActiveFilter] = useState("Alle");
   const [activeGymId, setActiveGymId] = useState<string | null>(null);
   const [search, setSearch] = useState("");
+  const [listCollapsed, setListCollapsed] = useState(false);
+
+  useEffect(() => {
+    const v = localStorage.getItem("gymListCollapsed");
+    if (v === "true") setListCollapsed(true);
+  }, []);
+
+  const toggleList = () => {
+    setListCollapsed((prev) => {
+      const next = !prev;
+      localStorage.setItem("gymListCollapsed", String(next));
+      return next;
+    });
+  };
 
   const filteredGyms = mockGymFinderGyms.filter((gym) => {
     const matchesSearch =
@@ -142,9 +163,14 @@ export default function GymsPage() {
       <p className="text-xs text-[#737373]">{filteredGyms.length} Studios gefunden</p>
 
       {/* Split layout */}
-      <div className="flex flex-col lg:flex-row gap-4">
-        {/* Map — top on mobile, right on desktop */}
-        <div className="lg:order-2 lg:w-3/5 rounded-xl overflow-hidden border border-[#2a2a2a]" style={{ minHeight: "350px" }}>
+      <div className="relative flex flex-col lg:flex-row gap-4">
+        {/* Map */}
+        <div
+          className={cn(
+            "lg:order-2 rounded-xl overflow-hidden border border-[#2a2a2a] h-[50vh] lg:h-[calc(100vh-theme(spacing.24))] transition-all duration-300",
+            listCollapsed ? "lg:w-full" : "lg:w-3/5"
+          )}
+        >
           <GymMap
             gyms={filteredGyms}
             activeGymId={activeGymId}
@@ -153,19 +179,62 @@ export default function GymsPage() {
         </div>
 
         {/* Card list — bottom on mobile, left on desktop */}
-        <div className="lg:order-1 lg:w-2/5 space-y-3 lg:max-h-[600px] lg:overflow-y-auto lg:pr-1">
-          {filteredGyms.map((gym) => (
-            <GymCard
-              key={gym.id}
-              gym={gym}
-              isActive={activeGymId === gym.id}
-              onClick={() => setActiveGymId(activeGymId === gym.id ? null : gym.id)}
-            />
-          ))}
-          {filteredGyms.length === 0 && (
-            <p className="text-center text-[#737373] py-8">Keine Studios gefunden</p>
+        <div
+          className={cn(
+            "lg:order-1 transition-all duration-300 overflow-hidden",
+            listCollapsed
+              ? "lg:w-0 lg:opacity-0 lg:pointer-events-none"
+              : "lg:w-2/5 lg:opacity-100"
           )}
+        >
+          {/* Toggle button — desktop */}
+          <div className="hidden lg:flex items-center justify-between mb-2">
+            <span className="text-xs text-[#737373]">{filteredGyms.length} Studios</span>
+            <button
+              onClick={toggleList}
+              aria-label="Gym-Liste einklappen"
+              className="flex items-center gap-1 text-xs text-[#737373] hover:text-[#f5f5f5] transition-colors"
+            >
+              <ChevronsLeft className="h-4 w-4" />
+              Einklappen
+            </button>
+          </div>
+          <div className="space-y-3 lg:max-h-[calc(100vh-theme(spacing.48))] lg:overflow-y-auto lg:pr-1">
+            {filteredGyms.map((gym) => (
+              <GymCard
+                key={gym.id}
+                gym={gym}
+                isActive={activeGymId === gym.id}
+                onClick={() => setActiveGymId(activeGymId === gym.id ? null : gym.id)}
+              />
+            ))}
+            {filteredGyms.length === 0 && (
+              <p className="text-center text-[#737373] py-8">Keine Studios gefunden</p>
+            )}
+          </div>
         </div>
+
+        {/* Toggle button when collapsed — desktop */}
+        {listCollapsed && (
+          <button
+            onClick={toggleList}
+            aria-label="Gym-Liste ausklappen"
+            className="hidden lg:flex absolute left-0 top-2 z-10 items-center gap-1 bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg px-3 py-2 text-xs text-[#737373] hover:text-[#f5f5f5] transition-colors shadow-lg"
+          >
+            <ChevronsRight className="h-4 w-4" />
+            Liste
+          </button>
+        )}
+
+        {/* Mobile toggle button */}
+        <button
+          onClick={toggleList}
+          aria-label={listCollapsed ? "Gym-Liste anzeigen" : "Gym-Liste ausblenden"}
+          className="lg:hidden fixed bottom-20 left-4 z-50 flex items-center gap-1.5 bg-[#6366f1] text-white rounded-full px-4 py-2 text-xs font-medium shadow-lg"
+        >
+          {listCollapsed ? <ChevronsRight className="h-4 w-4" /> : <ChevronsLeft className="h-4 w-4" />}
+          {listCollapsed ? "Liste" : "Liste"}
+        </button>
       </div>
     </div>
   );

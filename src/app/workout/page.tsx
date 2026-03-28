@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
-import { CheckCircle2, Circle, Clock, Dumbbell, Play, Pause, RotateCcw, Trophy } from "lucide-react";
+import { Clock, Dumbbell, Play, Pause, RotateCcw, Trophy } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -37,12 +37,16 @@ function WorkoutTimer({ running }: { running: boolean }) {
 
 export default function WorkoutPage() {
   const [activeTab, setActiveTab] = useState<"today" | "history">("today");
-  const [completedExercises, setCompletedExercises] = useState<Set<string>>(new Set());
+  const [completedSets, setCompletedSets] = useState<Record<string, Set<number>>>({});
   const [workoutFinished, setWorkoutFinished] = useState(false);
   const [timerRunning, setTimerRunning] = useState(false);
   const [workoutStarted, setWorkoutStarted] = useState(false);
   const [restTimer, setRestTimer] = useState(0);
   const restRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const totalSets = mockTodayWorkout.exercises.reduce((s, ex) => s + ex.sets.length, 0);
+  const doneSets = Object.values(completedSets).reduce((s, v) => s + v.size, 0);
+  const progress = totalSets > 0 ? Math.round((doneSets / totalSets) * 100) : 0;
 
   const startRest = (seconds: number) => {
     setRestTimer(seconds);
@@ -55,18 +59,26 @@ export default function WorkoutPage() {
     }, 1000);
   };
 
-  const toggleExercise = (name: string) => {
-    setCompletedExercises((prev) => {
-      const next = new Set(prev);
-      if (next.has(name)) next.delete(name);
-      else { next.add(name); startRest(90); }
+  const toggleSet = (exerciseName: string, setIdx: number) => {
+    setCompletedSets((prev) => {
+      const cur = new Set(prev[exerciseName] ?? []);
+      if (cur.has(setIdx)) {
+        cur.delete(setIdx);
+      } else {
+        cur.add(setIdx);
+        startRest(90);
+      }
+      const next = { ...prev, [exerciseName]: cur };
+      const allDone = mockTodayWorkout.exercises.every(
+        (ex) => (next[ex.name]?.size ?? 0) >= ex.sets.length
+      );
+      if (allDone) {
+        setWorkoutFinished(true);
+        setTimerRunning(false);
+      }
       return next;
     });
   };
-
-  const progress = mockTodayWorkout.exercises.length > 0
-    ? Math.round((completedExercises.size / mockTodayWorkout.exercises.length) * 100)
-    : 0;
 
   return (
     <div className="space-y-6">
@@ -125,7 +137,7 @@ export default function WorkoutPage() {
           {workoutStarted && (
             <div className="space-y-1">
               <div className="flex justify-between text-xs text-[#737373]">
-                <span>{completedExercises.size} / {mockTodayWorkout.exercises.length} exercises done</span>
+                <span>{doneSets} / {totalSets} sets done</span>
                 <span>{progress}%</span>
               </div>
               <div className="h-2 bg-[#1f2937] rounded-full overflow-hidden">
@@ -133,6 +145,17 @@ export default function WorkoutPage() {
                   className="h-full bg-[#10b981] rounded-full transition-all duration-500"
                   style={{ width: `${progress}%` }}
                 />
+              </div>
+            </div>
+          )}
+
+          {/* Confetti banner */}
+          {workoutFinished && (
+            <div className="confetti-banner flex items-center justify-center gap-3 py-4 rounded-xl bg-gradient-to-r from-[#10b981]/20 to-[#6366f1]/20 border border-[#10b981]/40">
+              <Trophy className="h-6 w-6 text-[#10b981]" />
+              <div className="text-center">
+                <p className="font-bold text-[#10b981] text-lg">🎉 Workout abgeschlossen!</p>
+                <p className="text-xs text-[#737373]">Großartige Leistung!</p>
               </div>
             </div>
           )}
@@ -151,23 +174,34 @@ export default function WorkoutPage() {
             <CardContent>
               <div className="space-y-4">
                 {mockTodayWorkout.exercises.map((exercise) => {
-                  const done = completedExercises.has(exercise.name);
+                  const exerciseDone = (completedSets[exercise.name]?.size ?? 0) >= exercise.sets.length;
                   return (
                     <div key={exercise.name} className={`rounded-xl border p-4 transition-all ${
-                      done ? "border-[#10b981] bg-[#10b98108]" : "border-[#1f2937]"
+                      exerciseDone ? "border-[#10b981] bg-[#10b98108]" : "border-[#1f2937]"
                     }`}>
                       <div className="flex items-center justify-between mb-3">
-                        <span className={`font-medium ${done ? "text-[#10b981]" : "text-[#f5f5f5]"}`}>{exercise.name}</span>
-                        <button onClick={() => toggleExercise(exercise.name)} className="text-[#737373] hover:text-[#10b981] transition-colors">
-                          {done ? <CheckCircle2 className="h-5 w-5 text-[#10b981]" /> : <Circle className="h-5 w-5" />}
-                        </button>
+                        <span className={`font-medium ${exerciseDone ? "text-[#10b981]" : "text-[#f5f5f5]"}`}>
+                          {exercise.name}
+                        </span>
+                        {exerciseDone && <span className="text-xs text-[#10b981] font-medium">✓ Fertig</span>}
                       </div>
                       <div className="grid grid-cols-3 gap-2">
                         {exercise.sets.map((set, i) => (
-                          <div key={i} className="bg-[#1a1a1a] rounded-lg px-2 py-1.5 text-center">
+                          <div
+                            key={i}
+                            onClick={() => toggleSet(exercise.name, i)}
+                            className={`rounded-lg px-2 py-1.5 text-center cursor-pointer transition-all select-none ${
+                              completedSets[exercise.name]?.has(i)
+                                ? "bg-[#10b981]/20 border border-[#10b981]/50"
+                                : "bg-[#1a1a1a] hover:bg-[#242424] border border-transparent"
+                            }`}
+                          >
                             <p className="text-xs text-[#737373]">Set {i + 1}</p>
                             <p className="text-sm font-medium text-[#f5f5f5]">{set.reps} reps</p>
                             {set.weight > 0 && <p className="text-xs text-[#6366f1]">{set.weight} lb</p>}
+                            {completedSets[exercise.name]?.has(i) && (
+                              <p className="text-xs text-[#10b981]">✓</p>
+                            )}
                           </div>
                         ))}
                       </div>
@@ -185,7 +219,11 @@ export default function WorkoutPage() {
                   <Button
                     className="w-full"
                     onClick={() => {
-                      setCompletedExercises(new Set(mockTodayWorkout.exercises.map((e) => e.name)));
+                      const allSets: Record<string, Set<number>> = {};
+                      mockTodayWorkout.exercises.forEach((ex) => {
+                        allSets[ex.name] = new Set(ex.sets.map((_, i) => i));
+                      });
+                      setCompletedSets(allSets);
                       setWorkoutFinished(true);
                       setTimerRunning(false);
                     }}

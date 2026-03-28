@@ -1,4 +1,5 @@
 "use client";
+import { NotificationPermission } from "@/components/ui/NotificationPermission";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { Flame, Dumbbell, TrendingUp, Zap, Play, ChevronRight, Target, Award, MapPin, Sparkles } from "lucide-react";
@@ -199,6 +200,9 @@ export default function DashboardPage() {
           </Button>
         </Link>
       </div>
+
+      {/* Notification Permission */}
+      <NotificationPermission />
 
       {/* Schnellzugriff */}
       <div>
