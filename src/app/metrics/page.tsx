@@ -62,25 +62,27 @@ export default function MetricsPage() {
         </CardHeader>
         <CardContent>
           <div style={{ height: 200 }}>
-            {mounted && <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData}>
-                <defs>
-                  <linearGradient id="weightGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2a2a2a" vertical={false} />
-                <XAxis dataKey="date" tick={{ fill: "#737373", fontSize: 10 }} axisLine={false} tickLine={false} interval={6} />
-                <YAxis tick={{ fill: "#737373", fontSize: 12 }} axisLine={false} tickLine={false} domain={["auto", "auto"]} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 8 }}
-                  labelStyle={{ color: "#f5f5f5" }}
-                  itemStyle={{ color: "#6366f1" }}
-                />
-                <Area type="monotone" dataKey="weight" stroke="#6366f1" strokeWidth={2} fill="url(#weightGrad)" name="Weight (lbs)" />
-              </AreaChart>
-            </ResponsiveContainer>
+            {mounted && (
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData}>
+                  <defs>
+                    <linearGradient id="weightGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2a2a" vertical={false} />
+                  <XAxis dataKey="date" tick={{ fill: "#737373", fontSize: 10 }} axisLine={false} tickLine={false} interval={6} />
+                  <YAxis tick={{ fill: "#737373", fontSize: 12 }} axisLine={false} tickLine={false} domain={["auto", "auto"]} />
+                  <Tooltip
+                    contentStyle={{ backgroundColor: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 8 }}
+                    labelStyle={{ color: "#f5f5f5" }}
+                    itemStyle={{ color: "#6366f1" }}
+                  />
+                  <Area type="monotone" dataKey="weight" stroke="#6366f1" strokeWidth={2} fill={"url(#weightGrad)"} name="Weight (lbs)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -92,25 +94,27 @@ export default function MetricsPage() {
         </CardHeader>
         <CardContent>
           <div style={{ height: 200 }}>
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={chartData}>
-                <defs>
-                  <linearGradient id="fatGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#2a2a2a" vertical={false} />
-                <XAxis dataKey="date" tick={{ fill: "#737373", fontSize: 10 }} axisLine={false} tickLine={false} interval={6} />
-                <YAxis tick={{ fill: "#737373", fontSize: 12 }} axisLine={false} tickLine={false} domain={["auto", "auto"]} />
-                <Tooltip
-                  contentStyle={{ backgroundColor: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 8 }}
-                  labelStyle={{ color: "#f5f5f5" }}
-                  itemStyle={{ color: "#10b981" }}
-                />
-                <Area type="monotone" dataKey="bodyFat" stroke="#10b981" strokeWidth={2} fill="url(#fatGrad)" name="Body Fat (%)" />
-              </AreaChart>
-            </ResponsiveContainer>
+            {mounted && (
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData}>
+                  <defs>
+                    <linearGradient id="fatGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.3} />
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2a2a" vertical={false} />
+                  <XAxis dataKey="date" tick={{ fill: "#737373", fontSize: 10 }} axisLine={false} tickLine={false} interval={6} />
+                  <YAxis tick={{ fill: "#737373", fontSize: 12 }} axisLine={false} tickLine={false} domain={["auto", "auto"]} />
+                  <Tooltip
+                    contentStyle={{ backgroundColor: "#1a1a1a", border: "1px solid #2a2a2a", borderRadius: 8 }}
+                    labelStyle={{ color: "#f5f5f5" }}
+                    itemStyle={{ color: "#10b981" }}
+                  />
+                  <Area type="monotone" dataKey="bodyFat" stroke="#10b981" strokeWidth={2} fill={"url(#fatGrad)"} name="Body Fat (%)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            )}
           </div>
         </CardContent>
       </Card>
