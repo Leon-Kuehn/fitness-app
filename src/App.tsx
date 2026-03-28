@@ -1,12 +1,12 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Layout } from './components/layout/Layout'
-import { LandingPage } from './pages/LandingPage'
-import { DashboardPage } from './pages/DashboardPage'
-import { WorkoutsPage } from './pages/WorkoutsPage'
-import { NutritionPage } from './pages/NutritionPage'
-import { ProgressPage } from './pages/ProgressPage'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Layout from './components/layout/Layout';
+import LandingPage from './pages/LandingPage';
+import DashboardPage from './pages/DashboardPage';
+import WorkoutsPage from './pages/WorkoutsPage';
+import NutritionPage from './pages/NutritionPage';
+import ProgressPage from './pages/ProgressPage';
 
-const basePath = import.meta.env.VITE_BASE_PATH || '/'
+const basePath = (import.meta as { env: { VITE_BASE_PATH?: string } }).env?.VITE_BASE_PATH ?? '/';
 
 export default function App() {
   return (
@@ -22,5 +22,5 @@ export default function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
-  )
+  );
 }
