@@ -6,12 +6,13 @@ import { Badge } from "@/components/ui/badge";
 import { mockExercises } from "@/lib/mock-data";
 
 const muscleGroups = ["All", "Chest", "Back", "Legs", "Shoulders", "Arms", "Core"];
-const difficulties = ["All", "Beginner", "Intermediate", "Advanced"];
+const difficultyLevels = ["All", "Easy", "Medium", "Hard", "Expert"] as const;
 
-const difficultyConfig: Record<string, { color: string; bg: string }> = {
-  Beginner: { color: "#10b981", bg: "#10b98115" },
-  Intermediate: { color: "#f59e0b", bg: "#f59e0b15" },
-  Advanced: { color: "#ef4444", bg: "#ef444415" },
+const difficultyMap: Record<number, { label: string; color: string; bg: string }> = {
+  1: { label: "Easy", color: "#10b981", bg: "#10b98115" },
+  2: { label: "Medium", color: "#f59e0b", bg: "#f59e0b15" },
+  3: { label: "Hard", color: "#ef4444", bg: "#ef444415" },
+  4: { label: "Expert", color: "#8b5cf6", bg: "#8b5cf615" },
 };
 
 export default function ExercisesPage() {
@@ -25,7 +26,8 @@ export default function ExercisesPage() {
       ex.name.toLowerCase().includes(search.toLowerCase()) ||
       ex.muscleGroup.toLowerCase().includes(search.toLowerCase());
     const matchGroup = selectedGroup === "All" || ex.muscleGroup === selectedGroup;
-    const matchDiff = selectedDifficulty === "All" || ex.difficulty === selectedDifficulty;
+    const diffLabel = difficultyMap[ex.difficulty]?.label ?? "";
+    const matchDiff = selectedDifficulty === "All" || diffLabel === selectedDifficulty;
     return matchSearch && matchGroup && matchDiff;
   });
 
@@ -81,7 +83,7 @@ export default function ExercisesPage() {
         <div className="space-y-2">
           <p className="text-xs font-medium text-[#737373] uppercase tracking-wide">Difficulty</p>
           <div className="flex gap-2">
-            {difficulties.map((d) => (
+            {difficultyLevels.map((d) => (
               <button
                 key={d}
                 onClick={() => setSelectedDifficulty(d)}
@@ -101,7 +103,7 @@ export default function ExercisesPage() {
       {/* Exercise Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         {filtered.map((exercise) => {
-          const diff = difficultyConfig[exercise.difficulty] ?? { color: "#737373", bg: "#73737315" };
+          const diff = difficultyMap[exercise.difficulty] ?? { label: "?", color: "#737373", bg: "#73737315" };
           return (
             <Card key={exercise.name} className="hover:border-[#6366f130] transition-colors cursor-pointer">
               <CardContent className="pt-4 pb-4">
@@ -119,7 +121,7 @@ export default function ExercisesPage() {
                     className="text-xs font-medium px-2 py-0.5 rounded-full"
                     style={{ color: diff.color, backgroundColor: diff.bg }}
                   >
-                    {exercise.difficulty}
+                    {diff.label}
                   </span>
                 </div>
                 <p className="text-xs text-[#737373] mb-3 line-clamp-2">{exercise.description}</p>
