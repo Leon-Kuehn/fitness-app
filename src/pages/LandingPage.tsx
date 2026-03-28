@@ -51,7 +51,7 @@ const stats = [
   { label: 'Open Source', value: '100%', icon: Shield },
 ]
 
-export function LandingPage() {
+export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gray-950">
       {/* Nav */}
