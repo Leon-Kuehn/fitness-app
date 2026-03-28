@@ -95,7 +95,7 @@ export default function AdminPage() {
   const [editingEquip, setEditingEquip] = useState<string | null>(null);
   const [editEquipVals, setEditEquipVals] = useState<GymEquipment | null>(null);
   const [showAddEquip, setShowAddEquip] = useState(false);
-  const [newEquip, setNewEquip] = useState<Omit<GymEquipment, never>>({
+  const [newEquip, setNewEquip] = useState<GymEquipment>({
     name: "",
     category: "Cardio",
     count: 1,
@@ -149,9 +149,10 @@ export default function AdminPage() {
       m.email.toLowerCase().includes(search.toLowerCase())
   );
 
+  const todayStr = new Date().toISOString().slice(0, 10);
   const hansefitCount = mockGymMembers.filter((m) => m.hansefit).length;
   const activeToday = mockGymMembers.filter(
-    (m) => m.lastVisit === new Date().toISOString().slice(0, 10)
+    (m) => m.lastVisit === todayStr
   ).length;
 
   const tabs = [
