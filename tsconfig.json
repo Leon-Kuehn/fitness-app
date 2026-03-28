@@ -23,5 +23,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-    "exclude": ["node_modules", "src/pages", "src/components/Layout.tsx", "src/components/Navbar.tsx"]
+  "exclude": ["node_modules", "src/pages", "src/App.tsx", "src/components/Layout.tsx", "src/components/Navbar.tsx", "src/components/layout", "vite.config.ts"]
 }
