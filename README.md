@@ -1,36 +1,173 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
 
-## Getting Started
+<img src="public/logo.svg" alt="FitFlow Logo" width="120" height="120" />
 
-First, run the development server:
+# FitFlow
+
+**The open-source fitness platform that actually puts you first.**
+
+[![CI](https://github.com/Leon-Kuehn/fitness-app/actions/workflows/ci.yml/badge.svg)](https://github.com/Leon-Kuehn/fitness-app/actions/workflows/ci.yml)
+[![Deploy](https://github.com/Leon-Kuehn/fitness-app/actions/workflows/deploy.yml/badge.svg)](https://github.com/Leon-Kuehn/fitness-app/actions/workflows/deploy.yml)
+[![CodeQL](https://github.com/Leon-Kuehn/fitness-app/actions/workflows/codeql.yml/badge.svg)](https://github.com/Leon-Kuehn/fitness-app/actions/workflows/codeql.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Open Source](https://img.shields.io/badge/Open%20Source-%E2%9D%A4-red)](https://github.com/Leon-Kuehn/fitness-app)
+
+[🌐 Live Demo](https://leon-kuehn.github.io/fitness-app) · [📋 Report Bug](https://github.com/Leon-Kuehn/fitness-app/issues/new?template=bug_report.yml) · [💡 Request Feature](https://github.com/Leon-Kuehn/fitness-app/issues/new?template=feature_request.yml) · [📖 Docs](#documentation)
+
+</div>
+
+---
+
+## 🎯 Vision
+
+FitFlow is a **free, open-source** fitness web application built for athletes, gym-goers, and anyone serious about their health. No paywalls. No subscriptions. No data harvesting.
+
+We believe great fitness software should be:
+- **Free forever** – not freemium, not trial-limited. Free.
+- **Privacy-first** – your data stays yours
+- **Community-driven** – built by athletes, for athletes
+- **Better by design** – simpler UX than MyFitnessPal, stronger features than free alternatives
+
+---
+
+## ✨ Features
+
+| Feature | Status |
+|---------|--------|
+| 🏋️ Workout Tracker & Planner | ✅ Available |
+| 🥗 Nutrition & Macro Tracking | ✅ Available |
+| 📊 Progress Charts & Analytics | ✅ Available |
+| 💪 Exercise Library (300+ exercises) | ✅ Available |
+| 🔥 Custom Workout Plans | ✅ Available |
+| 📱 PWA (Mobile-ready) | 🚧 In Progress |
+| 🤝 Social & Community Features | 🗓️ Planned |
+| 🤖 AI Coach (personalized plans) | 🗓️ Planned |
+| ⌚ Wearable Sync | 🗓️ Planned |
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|------------|
+| **Frontend** | React 18 + TypeScript |
+| **Build Tool** | Vite |
+| **Styling** | Tailwind CSS |
+| **Routing** | React Router v6 |
+| **State** | Zustand |
+| **Charts** | Recharts |
+| **Icons** | Lucide React |
+| **Testing** | Vitest + React Testing Library |
+| **Linting** | ESLint + Prettier |
+| **CI/CD** | GitHub Actions |
+| **Hosting** | GitHub Pages |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 20+
+- npm 10+
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone https://github.com/Leon-Kuehn/fitness-app.git
+cd fitness-app
+
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+npm run test         # Run tests
+npm run test:ui      # Run tests with UI
+npm run test:coverage # Run tests with coverage report
+npm run lint         # Run ESLint
+npm run lint:fix     # Fix ESLint issues automatically
+npm run format       # Format with Prettier
+npm run type-check   # TypeScript type checking
+```
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📁 Project Structure
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+fitness-app/
+├── .github/
+│   ├── ISSUE_TEMPLATE/     # Bug, Feature, User Story templates
+│   ├── workflows/          # CI, Deploy, CodeQL pipelines
+│   └── PULL_REQUEST_TEMPLATE.md
+├── public/                 # Static assets
+├── src/
+│   ├── components/         # Reusable UI components
+│   │   ├── ui/             # Base design system components
+│   │   └── layout/         # Layout components
+│   ├── pages/              # Route-level page components
+│   ├── hooks/              # Custom React hooks
+│   ├── store/              # Zustand state management
+│   ├── types/              # TypeScript type definitions
+│   ├── utils/              # Helper functions
+│   ├── data/               # Static data (exercises, etc.)
+│   ├── __tests__/          # Test files
+│   ├── App.tsx
+│   └── main.tsx
+├── CHANGELOG.md
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── LICENSE
+└── SECURITY.md
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🤝 Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+We love contributions! FitFlow is built by the community, for the community.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Please read our **[Contributing Guide](CONTRIBUTING.md)** before submitting a PR.
+
+Key rules:
+- All PRs go to `develop` branch (never directly to `main`)
+- PRs require at least 1 review approval
+- All CI checks must pass before merging
+- Follow the [Conventional Commits](https://www.conventionalcommits.org/) standard
+
+---
+
+## 🛡️ Security
+
+Found a vulnerability? Please read our **[Security Policy](SECURITY.md)** and report responsibly.
+
+---
+
+## 📜 License
+
+MIT © [Leon Kühn](https://github.com/Leon-Kuehn) – See [LICENSE](LICENSE) for details.
+
+FitFlow will **always** be free and open source.
+
+---
+
+## 🌟 Star History
+
+If FitFlow helps you, please ⭐ star this repo – it helps others find it!
+
+<div align="center">
+  <sub>Built with ❤️ by the FitFlow community</sub>
+</div>
