@@ -1,25 +1,72 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { format } from "date-fns";
-import { CheckCircle2, Circle, Clock, Dumbbell } from "lucide-react";
+import { CheckCircle2, Circle, Clock, Dumbbell, Play, Pause, RotateCcw, Trophy } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { mockWorkouts, mockTodayWorkout } from "@/lib/mock-data";
 
+function WorkoutTimer({ running }: { running: boolean }) {
+  const [seconds, setSeconds] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    if (running) {
+      intervalRef.current = setInterval(() => setSeconds((s) => s + 1), 1000);
+    } else {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    }
+    return () => { if (intervalRef.current) clearInterval(intervalRef.current); };
+  }, [running]);
+
+  const h = Math.floor(seconds / 3600);
+  const m = Math.floor((seconds % 3600) / 60);
+  const s = seconds % 60;
+  const fmt = (n: number) => String(n).padStart(2, "0");
+
+  return (
+    <div className="text-center">
+      <p className="text-4xl font-mono font-bold text-[#f5f5f5] tracking-widest">
+        {h > 0 && `${fmt(h)}:`}{fmt(m)}:{fmt(s)}
+      </p>
+      <p className="text-xs text-[#737373] mt-1">Workout Time</p>
+    </div>
+  );
+}
+
 export default function WorkoutPage() {
   const [activeTab, setActiveTab] = useState<"today" | "history">("today");
   const [completedExercises, setCompletedExercises] = useState<Set<string>>(new Set());
   const [workoutFinished, setWorkoutFinished] = useState(false);
+  const [timerRunning, setTimerRunning] = useState(false);
+  const [workoutStarted, setWorkoutStarted] = useState(false);
+  const [restTimer, setRestTimer] = useState(0);
+  const restRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const startRest = (seconds: number) => {
+    setRestTimer(seconds);
+    if (restRef.current) clearInterval(restRef.current);
+    restRef.current = setInterval(() => {
+      setRestTimer((prev) => {
+        if (prev <= 1) { clearInterval(restRef.current!); return 0; }
+        return prev - 1;
+      });
+    }, 1000);
+  };
 
   const toggleExercise = (name: string) => {
     setCompletedExercises((prev) => {
       const next = new Set(prev);
       if (next.has(name)) next.delete(name);
-      else next.add(name);
+      else { next.add(name); startRest(90); }
       return next;
     });
   };
+
+  const progress = mockTodayWorkout.exercises.length > 0
+    ? Math.round((completedExercises.size / mockTodayWorkout.exercises.length) * 100)
+    : 0;
 
   return (
     <div className="space-y-6">
@@ -45,6 +92,52 @@ export default function WorkoutPage() {
 
       {activeTab === "today" && (
         <div className="space-y-4">
+          {/* Timer Card */}
+          <Card className="text-center">
+            <CardContent className="pt-6 pb-4 space-y-4">
+              <WorkoutTimer running={timerRunning} />
+              {restTimer > 0 && (
+                <div className="bg-[#f59e0b10] border border-[#f59e0b30] rounded-lg px-4 py-2">
+                  <p className="text-sm text-[#f59e0b] font-medium">Rest: {restTimer}s remaining</p>
+                </div>
+              )}
+              <div className="flex items-center justify-center gap-3">
+                {!workoutStarted ? (
+                  <Button onClick={() => { setWorkoutStarted(true); setTimerRunning(true); }} className="gap-2">
+                    <Play className="h-4 w-4" /> Start Workout
+                  </Button>
+                ) : (
+                  <>
+                    <Button variant="outline" size="sm" onClick={() => setTimerRunning((r) => !r)} className="gap-2">
+                      {timerRunning ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
+                      {timerRunning ? "Pause" : "Resume"}
+                    </Button>
+                    <Button variant="ghost" size="sm" onClick={() => { setTimerRunning(false); setWorkoutStarted(false); }} className="gap-1 text-[#737373]">
+                      <RotateCcw className="h-3.5 w-3.5" /> Reset
+                    </Button>
+                  </>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Progress Bar */}
+          {workoutStarted && (
+            <div className="space-y-1">
+              <div className="flex justify-between text-xs text-[#737373]">
+                <span>{completedExercises.size} / {mockTodayWorkout.exercises.length} exercises done</span>
+                <span>{progress}%</span>
+              </div>
+              <div className="h-2 bg-[#1f2937] rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-[#10b981] rounded-full transition-all duration-500"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* Exercises */}
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
@@ -60,25 +153,21 @@ export default function WorkoutPage() {
                 {mockTodayWorkout.exercises.map((exercise) => {
                   const done = completedExercises.has(exercise.name);
                   return (
-                    <div key={exercise.name} className={`rounded-lg border p-3 transition-colors ${done ? "border-[#10b981]/30 bg-[#10b981]/5" : "border-[#2a2a2a] bg-[#242424]"}`}>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <Dumbbell className="h-4 w-4 text-[#6366f1]" />
-                          <span className={`text-sm font-medium ${done ? "line-through text-[#737373]" : "text-[#f5f5f5]"}`}>
-                            {exercise.name}
-                          </span>
-                        </div>
+                    <div key={exercise.name} className={`rounded-xl border p-4 transition-all ${
+                      done ? "border-[#10b981] bg-[#10b98108]" : "border-[#1f2937]"
+                    }`}>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className={`font-medium ${done ? "text-[#10b981]" : "text-[#f5f5f5]"}`}>{exercise.name}</span>
                         <button onClick={() => toggleExercise(exercise.name)} className="text-[#737373] hover:text-[#10b981] transition-colors">
                           {done ? <CheckCircle2 className="h-5 w-5 text-[#10b981]" /> : <Circle className="h-5 w-5" />}
                         </button>
                       </div>
                       <div className="grid grid-cols-3 gap-2">
                         {exercise.sets.map((set, i) => (
-                          <div key={i} className="rounded-md bg-[#1a1a1a] px-2 py-1.5 text-center">
+                          <div key={i} className="bg-[#1a1a1a] rounded-lg px-2 py-1.5 text-center">
                             <p className="text-xs text-[#737373]">Set {i + 1}</p>
-                            <p className="text-xs font-medium text-[#f5f5f5]">
-                              {set.reps} reps{set.weight > 0 ? ` @ ${set.weight}lb` : ""}
-                            </p>
+                            <p className="text-sm font-medium text-[#f5f5f5]">{set.reps} reps</p>
+                            {set.weight > 0 && <p className="text-xs text-[#6366f1]">{set.weight} lb</p>}
                           </div>
                         ))}
                       </div>
@@ -86,11 +175,11 @@ export default function WorkoutPage() {
                   );
                 })}
               </div>
-              <div className="mt-4">
+              <div className="mt-6">
                 {workoutFinished ? (
-                  <div className="rounded-lg bg-[#10b981]/10 border border-[#10b981]/30 p-3 text-center">
-                    <CheckCircle2 className="h-6 w-6 text-[#10b981] mx-auto mb-1" />
-                    <p className="text-sm font-medium text-[#10b981]">Workout Complete!</p>
+                  <div className="flex items-center justify-center gap-2 py-3 rounded-xl bg-[#10b98115] border border-[#10b981]">
+                    <Trophy className="h-5 w-5 text-[#10b981]" />
+                    <span className="font-semibold text-[#10b981]">Workout Complete!</span>
                   </div>
                 ) : (
                   <Button
@@ -98,6 +187,7 @@ export default function WorkoutPage() {
                     onClick={() => {
                       setCompletedExercises(new Set(mockTodayWorkout.exercises.map((e) => e.name)));
                       setWorkoutFinished(true);
+                      setTimerRunning(false);
                     }}
                   >
                     Finish Workout
@@ -110,30 +200,24 @@ export default function WorkoutPage() {
       )}
 
       {activeTab === "history" && (
-        <div className="space-y-3">
+        <div className="space-y-4">
           {mockWorkouts.map((workout) => (
-            <Card key={workout.id}>
-              <CardContent>
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-sm font-semibold text-[#f5f5f5]">{workout.name}</p>
-                    <p className="text-xs text-[#737373] mt-0.5">{workout.date}</p>
-                    <div className="flex items-center gap-3 mt-2">
-                      <span className="flex items-center gap-1 text-xs text-[#737373]">
-                        <Clock className="h-3 w-3" />{workout.duration} min
-                      </span>
-                      <span className="flex items-center gap-1 text-xs text-[#737373]">
-                        <Dumbbell className="h-3 w-3" />{workout.exercises.length} exercises
-                      </span>
-                    </div>
-                  </div>
-                  <Badge variant="accent">Completed</Badge>
+            <Card key={workout.name}>
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base">{workout.name}</CardTitle>
+                  <Badge variant="secondary" className="text-[#10b981] border-[#10b981]">Completed</Badge>
                 </div>
-                <div className="mt-3 flex flex-wrap gap-1.5">
+                <p className="text-xs text-[#737373]">{workout.date}</p>
+              </CardHeader>
+              <CardContent>
+                <div className="flex gap-4 text-sm text-[#737373] mb-3">
+                  <span className="flex items-center gap-1"><Clock className="h-3.5 w-3.5" /> {workout.duration} min</span>
+                  <span className="flex items-center gap-1"><Dumbbell className="h-3.5 w-3.5" /> {workout.exercises.length} exercises</span>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
                   {workout.exercises.map((ex) => (
-                    <span key={ex.name} className="rounded-full bg-[#242424] px-2 py-0.5 text-xs text-[#737373]">
-                      {ex.name}
-                    </span>
+                    <Badge key={ex.name} variant="outline" className="text-xs">{ex.name}</Badge>
                   ))}
                 </div>
               </CardContent>
