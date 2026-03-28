@@ -6,11 +6,9 @@ import WorkoutsPage from './pages/WorkoutsPage';
 import NutritionPage from './pages/NutritionPage';
 import ProgressPage from './pages/ProgressPage';
 
-const basePath = (import.meta as { env: { VITE_BASE_PATH?: string } }).env?.VITE_BASE_PATH ?? '/';
-
 export default function App() {
   return (
-    <BrowserRouter basename={basePath}>
+    <BrowserRouter basename="/fitness-app">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route element={<Layout />}>
