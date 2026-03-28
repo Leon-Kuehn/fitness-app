@@ -1,8 +1,33 @@
 "use client";
-import { Sparkles, Brain, BarChart2, Apple, TrendingUp } from "lucide-react";
+import { Sparkles, Brain, BarChart2, Apple, TrendingUp, Dumbbell } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { mockGyms } from "@/lib/mock-data";
+
+const gym = mockGyms[0];
+const keyMachines = gym.equipment.slice(0, 6).map((e) => e.name);
+
+const gymWorkouts = [
+  {
+    title: "Treadmill HIIT",
+    description: `Use the ${gym.equipment[0].name} for 8 rounds of 30s sprint / 30s walk. Follow with cable machine supersets.`,
+    tags: ["Cardio", "HIIT"],
+    color: "#6366f1",
+  },
+  {
+    title: "Barbell Strength Block",
+    description: `Barbell Rack squats 4×5 → Smith Machine bench 4×6 → Lat Pulldown 4×8. Progressive overload focus.`,
+    tags: ["Strength", "Compound"],
+    color: "#10b981",
+  },
+  {
+    title: "Functional Circuit",
+    description: `Battle Ropes 3×20s → TRX rows 3×12 → Kettlebell swings 3×15 → Plyo Box jumps 3×10.`,
+    tags: ["Functional", "Circuit"],
+    color: "#f59e0b",
+  },
+];
 
 const features = [
   {
@@ -46,6 +71,50 @@ export default function AIPage() {
           <p className="text-sm text-[#737373] mt-1">Your intelligent fitness companion</p>
         </div>
         <Badge variant="warning">Coming Soon</Badge>
+      </div>
+
+      {/* Gym Context Card */}
+      <div className="rounded-xl bg-[#111827] border-l-4 border-[#6366f1] border border-[#1f2937] p-4">
+        <div className="flex items-center gap-2 mb-2">
+          <Dumbbell className="h-4 w-4 text-[#6366f1]" />
+          <p className="text-sm font-semibold text-[#f5f5f5]">
+            Training at {gym.name}
+          </p>
+        </div>
+        <p className="text-xs text-[#737373]">
+          Equipment available:{" "}
+          <span className="text-[#d4d4d4]">{keyMachines.join(", ")}</span>
+        </p>
+      </div>
+
+      {/* Gym-Specific Workout Suggestions */}
+      <div>
+        <h2 className="text-base font-semibold text-[#f5f5f5] mb-3">
+          Gym-Specific Workout Suggestions
+        </h2>
+        <div className="grid gap-3 sm:grid-cols-3">
+          {gymWorkouts.map((w) => (
+            <Card key={w.title}>
+              <CardContent className="pt-4">
+                <div
+                  className="flex h-8 w-8 items-center justify-center rounded-xl mb-3"
+                  style={{ backgroundColor: `${w.color}20` }}
+                >
+                  <Dumbbell className="h-4 w-4" style={{ color: w.color }} />
+                </div>
+                <p className="text-sm font-semibold text-[#f5f5f5] mb-1">{w.title}</p>
+                <p className="text-xs text-[#737373] mb-3">{w.description}</p>
+                <div className="flex flex-wrap gap-1">
+                  {w.tags.map((tag) => (
+                    <Badge key={tag} variant="muted">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
       </div>
 
       {/* Hero */}
