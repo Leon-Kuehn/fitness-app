@@ -1,13 +1,13 @@
 "use client";
 import { format } from "date-fns";
-import { Plus, Utensils, Flame, Beef, Wheat, Droplets } from "lucide-react";
+import { Plus, Utensils, Flame, Beef, Wheat, Droplets, LucideIcon } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { mockNutritionDays, weeklyCalories } from "@/lib/mock-data";
 
 function MacroBar({ label, value, goal, color, icon: Icon }: {
-  label: string; value: number; goal: number; color: string; icon: React.ElementType;
+  label: string; value: number; goal: number; color: string; icon: LucideIcon;
 }) {
   const pct = Math.min((value / goal) * 100, 100);
   return (
