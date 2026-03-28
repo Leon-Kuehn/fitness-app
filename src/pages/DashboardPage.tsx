@@ -25,7 +25,7 @@ const stats = [
   { label: 'Goal progress', value: '78%', icon: Target, color: 'text-purple-400', bg: 'bg-purple-400/10' },
 ]
 
-export function DashboardPage() {
+export default function DashboardPage() {
   return (
     <div className="animate-fade-in">
       <div className="mb-8">
