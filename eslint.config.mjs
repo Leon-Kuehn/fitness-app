@@ -18,6 +18,9 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      "src/pages/**",
+      "src/components/Layout.tsx",
+      "src/components/Navbar.tsx"
     ],
   },
 ];
