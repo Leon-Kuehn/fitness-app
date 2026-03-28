@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
-import { Flame, Dumbbell, TrendingUp, Zap, Play, ChevronRight, Target, Award } from "lucide-react";
+import { Flame, Dumbbell, TrendingUp, Zap, Play, ChevronRight, Target, Award, MapPin, Sparkles } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -198,6 +198,36 @@ export default function DashboardPage() {
             <TrendingUp className="h-4 w-4" /> Track Weight
           </Button>
         </Link>
+      </div>
+
+      {/* Schnellzugriff */}
+      <div>
+        <h2 className="text-base font-semibold text-[#f5f5f5] mb-3">Schnellzugriff</h2>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+          {[
+            { href: "/workout", icon: Dumbbell, label: "Training starten", color: "#6366f1" },
+            { href: "/gyms", icon: MapPin, label: "Gymfinder", color: "#10b981" },
+            { href: "/ai", icon: Sparkles, label: "KI-Coach", color: "#f59e0b" },
+            { href: "/nutrition", icon: Flame, label: "Ernährung", color: "#ec4899" },
+          ].map((item) => {
+            const Icon = item.icon;
+            return (
+              <Link key={item.href} href={item.href}>
+                <div
+                  className="flex flex-col items-center gap-2 p-4 bg-[#1a1a1a] border border-[#2a2a2a] rounded-xl hover:border-[#6366f1]/50 hover:scale-[1.02] transition-all cursor-pointer text-center"
+                >
+                  <div
+                    className="flex h-10 w-10 items-center justify-center rounded-xl"
+                    style={{ backgroundColor: `${item.color}20` }}
+                  >
+                    <Icon className="h-5 w-5" style={{ color: item.color }} />
+                  </div>
+                  <span className="text-xs font-medium text-[#d4d4d4]">{item.label}</span>
+                </div>
+              </Link>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

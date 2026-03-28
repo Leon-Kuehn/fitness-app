@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   Dumbbell, LayoutDashboard, Calendar, BookOpen, UtensilsCrossed,
   TrendingUp, Sparkles, FolderOpen, Building2, ShieldCheck, LogOut, LogIn,
-  Settings, ChevronLeft, ChevronRight,
+  Settings, ChevronLeft, ChevronRight, MapPin, Trophy, Clock,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
@@ -26,12 +26,15 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
   const navItems = [
     { href: "/", label: t("dashboard"), icon: LayoutDashboard },
     { href: "/workout", label: t("workout"), icon: Dumbbell },
+    { href: "/history", label: t("history"), icon: Clock },
     { href: "/plans", label: t("plans"), icon: FolderOpen },
     { href: "/calendar", label: t("calendar"), icon: Calendar },
     { href: "/exercises", label: t("exercises"), icon: BookOpen },
     { href: "/nutrition", label: t("nutrition"), icon: UtensilsCrossed },
     { href: "/metrics", label: t("metrics"), icon: TrendingUp },
     { href: "/ai", label: t("aiCoach"), icon: Sparkles },
+    { href: "/achievements", label: t("achievements"), icon: Trophy },
+    { href: "/gyms", label: t("gymFinder"), icon: MapPin },
   ];
 
   return (
