@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Plus, Scale, ChevronDown, ChevronUp, Clock, Dumbbell, Zap } from "lucide-react";
+import { Plus, Scale, ChevronDown, ChevronUp, Clock, Dumbbell, Zap, X } from "lucide-react";
 import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
 } from "recharts";
@@ -132,6 +132,7 @@ export default function ProgressPage() {
   const [tab, setTab] = useState<Tab>("history");
   const [unit, setUnit] = useState<"lbs" | "kg">("kg");
   const [heatmapData, setHeatmapData] = useState<HeatmapDay[]>([]);
+    const [showLogModal, setShowLogModal] = useState(false);
   useEffect(() => {
     setMounted(true);
     setHeatmapData(generateHeatmapData());
@@ -258,7 +259,7 @@ export default function ProgressPage() {
                 </button>
               ))}
             </div>
-            <Button size="sm" className="gap-1">
+                      <Button size="sm" className="gap-1" onClick={() => setShowLogModal(true)}>
               <Plus className="h-4 w-4" /> Log
             </Button>
           </div>
@@ -393,5 +394,24 @@ export default function ProgressPage() {
         </Card>
       )}
     </div>
+    
+      {showLogModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
+          <div className="w-full max-w-sm rounded-2xl bg-[#1a1a1a] border border-[#2a2a2a] p-6 space-y-4">
+            <div className="flex items-center justify-between">
+              <h2 className="text-base font-semibold text-[#f5f5f5]">Körperwert eintragen</h2>
+              <button onClick={() => setShowLogModal(false)} className="text-[#737373] hover:text-[#f5f5f5]"><X className="h-4 w-4" /></button>
+            </div>
+            <div className="space-y-3">
+              <div><label className="text-xs text-[#737373] mb-1 block">Gewicht ({unit})</label><input type="number" step="0.1" placeholder={`z.B. ${latest.weight}`} className="w-full bg-[#0f0f0f] border border-[#2a2a2a] rounded-lg px-3 py-2 text-sm text-[#f5f5f5] placeholder-[#737373] focus:outline-none focus:border-[#6366f1]" /></div>
+              <div><label className="text-xs text-[#737373] mb-1 block">Körperfett (%)</label><input type="number" step="0.1" placeholder={`z.B. ${latest.bodyFat}`} className="w-full bg-[#0f0f0f] border border-[#2a2a2a] rounded-lg px-3 py-2 text-sm text-[#f5f5f5] placeholder-[#737373] focus:outline-none focus:border-[#6366f1]" /></div>
+            </div>
+            <div className="flex gap-3">
+              <Button variant="outline" className="flex-1" onClick={() => setShowLogModal(false)}>Abbrechen</Button>
+              <Button className="flex-1" onClick={() => setShowLogModal(false)}>Speichern</Button>
+            </div>
+          </div>
+        </div>
+      )}
   );
 }
