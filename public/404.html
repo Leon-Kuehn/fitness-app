@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>FitTrack</title>
+    <script>
+      // GitHub Pages SPA redirect trick.
+      // Encode the current path + query + hash as a query param and redirect to
+      // the root so the React app can pick it up and render the right route.
+      var l = window.location;
+      l.replace(
+        l.protocol +
+          "//" +
+          l.hostname +
+          (l.port ? ":" + l.port : "") +
+          "/fitness-app/" +
+          "?p=" +
+          encodeURIComponent(l.pathname.replace("/fitness-app", "") + l.search) +
+          (l.hash ? "&h=" + encodeURIComponent(l.hash) : "")
+      );
+    </script>
+  </head>
+  <body></body>
+</html>

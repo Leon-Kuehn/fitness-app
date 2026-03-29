@@ -49,6 +49,9 @@ jobs:
           echo "Build output found. Files:"
           ls ./out
 
+      - name: Add .nojekyll to build output
+        run: touch ./out/.nojekyll
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
