@@ -33,12 +33,21 @@ jobs:
           enablement: true
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: Build (Next.js static export)
         run: npm run build
         env:
           GITHUB_PAGES: "true"
+
+      - name: Verify build output
+        run: |
+          if [ ! -d "./out" ]; then
+            echo "ERROR: ./out directory not found. Build may have failed."
+            exit 1
+          fi
+          echo "Build output found. Files:"
+          ls ./out
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
