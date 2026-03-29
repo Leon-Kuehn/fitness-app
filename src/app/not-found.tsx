@@ -4,11 +4,11 @@ import Link from "next/link";
 import { Dumbbell, ArrowLeft, Zap } from "lucide-react";
 
 const FITNESS_TIPS = [
-  "Stay hydrated: drink 2–3 liters of water daily, especially on training days.",
+  "Stay hydrated: drink 2-3 liters of water daily, especially on training days.",
   "Progressive overload is the key to continuous strength gains.",
-  "Sleep is your best supplement: 7–9 hours per night optimizes recovery.",
+  "Sleep is your best supplement: 7-9 hours per night optimizes recovery.",
   "Compound exercises like squats and deadlifts activate more muscle groups simultaneously.",
-  "Consistency beats intensity: 3×30 min per week beats one 3-hour session.",
+  "Consistency beats intensity: 3x30 min per week beats one 3-hour session.",
 ];
 
 export default function NotFoundPage() {
@@ -28,7 +28,7 @@ export default function NotFoundPage() {
       </p>
 
       <Link
-        href="/"
+        href="/plans"
         className="flex items-center gap-2 px-5 py-2.5 text-sm font-medium bg-[#6366f1] hover:bg-[#4f46e5] text-white rounded-xl transition-colors mb-10"
       >
         <ArrowLeft className="h-4 w-4" />
