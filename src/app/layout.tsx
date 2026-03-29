@@ -20,7 +20,7 @@ export const metadata: Metadata = {
     type: "website",
   },
   other: {
-    "theme-color": "#6366f1",
+    "theme-color": "#ff375f",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "black-translucent",
   },
@@ -31,8 +31,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="apple-touch-icon" href="/fitness-app/icon-192.png" />
+        <link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@700,800&f[]=satoshi@400,500,600&display=swap" rel="stylesheet" />
       </head>
-      <body className="antialiased bg-[#0f0f0f] text-[#f5f5f5]">
+      <body className="antialiased" style={{ backgroundColor: 'var(--color-bg)', color: 'var(--color-text)', fontFamily: 'var(--font-body)' }}>
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-[#6366f1] focus:text-white focus:top-0 focus:left-0"
