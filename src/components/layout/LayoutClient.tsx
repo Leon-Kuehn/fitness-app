@@ -24,7 +24,7 @@ export function LayoutClient({ children }: { children: React.ReactNode }) {
       <div
         className={cn(
           "flex flex-col min-h-screen transition-all duration-300",
-          collapsed ? "lg:ml-[60px]" : "lg:ml-60"
+          collapsed ? "lg:ml-[60px]" : "lg:ml-56"
         )}
       >
         <main
