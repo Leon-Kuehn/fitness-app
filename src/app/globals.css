@@ -48,3 +48,13 @@ body {
   background: #2a2a2a;
   border-radius: 2px;
 }
+
+@keyframes confetti-pop {
+  0% { opacity: 0; transform: scale(0.5) translateY(10px); }
+  60% { transform: scale(1.1) translateY(-5px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.confetti-banner {
+  animation: confetti-pop 0.6s ease forwards;
+}

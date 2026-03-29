@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import {
   Dumbbell, LayoutDashboard, Calendar, BookOpen, UtensilsCrossed,
   TrendingUp, Sparkles, FolderOpen, Building2, ShieldCheck, LogOut, LogIn,
-  Settings, ChevronLeft, ChevronRight, MapPin, Trophy, Clock,
+  Settings, ChevronLeft, ChevronRight, MapPin, Trophy, Clock, UserCircle,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
@@ -35,6 +35,7 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
     { href: "/ai", label: t("aiCoach"), icon: Sparkles },
     { href: "/achievements", label: t("achievements"), icon: Trophy },
     { href: "/gyms", label: t("gymFinder"), icon: MapPin },
+    { href: "/profile", label: "Profil", icon: UserCircle },
   ];
 
   return (
@@ -137,17 +138,15 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
         {user ? (
           <>
             {!collapsed && (
-              <div className="flex items-center gap-2 px-3 py-2">
+              <Link href="/profile" className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#242424] transition-colors group">
                 <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#6366f1]/20 shrink-0">
                   <span className="text-xs font-semibold text-[#6366f1]">{user.name.charAt(0)}</span>
                 </div>
                 <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium text-[#f5f5f5] truncate">{user.name}</p>
-                  <p className="text-[10px] text-[#737373] truncate">
-                    {role === "gym_admin" ? "Gym Admin" : "Member"}
-                  </p>
+                  <p className="text-xs font-medium text-[#f5f5f5] truncate group-hover:text-[#6366f1] transition-colors">{user.name}</p>
+                  <p className="text-[10px] text-[#737373] truncate">Profil ansehen</p>
                 </div>
-              </div>
+              </Link>
             )}
             <button
               onClick={handleLogout}
@@ -179,6 +178,7 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
         <button
           onClick={onToggleCollapse}
           title={collapsed ? "Erweitern" : "Einklappen"}
+          aria-label={collapsed ? "Sidebar erweitern" : "Sidebar einklappen"}
           className={cn(
             "flex w-full items-center rounded-lg px-3 py-2 text-sm text-[#737373] hover:bg-[#242424] hover:text-[#f5f5f5] transition-colors",
             collapsed ? "justify-center gap-0" : "gap-3"

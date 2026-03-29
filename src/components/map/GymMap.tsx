@@ -81,11 +81,11 @@ export default function GymMap({ gyms, activeGymId, onGymSelect }: GymMapProps) 
   }
 
   return (
-    <div className="relative w-full" style={{ minHeight: "350px" }}>
+    <div className="relative w-full h-full" style={{ minHeight: "400px" }}>
       <MapContainer
         center={[48.0, 7.85]}
         zoom={12}
-        style={{ width: "100%", height: "100%", minHeight: "350px" }}
+        style={{ width: "100%", height: "100%", minHeight: "400px" }}
         ref={(map) => { if (map) mapRef.current = map; }}
       >
         <TileLayer
