@@ -80,7 +80,8 @@ export default function PlansPage() {
       name: newName.trim(),
       description: newDesc.trim() || L.subtitle,
       color: "#6366f1",
-      workouts: [],
+      icon: "Dumbbell",
+      workouts: [] as string[],
     };
     setPlans((prev) => [...prev, newPlan]);
     setNewName("");
