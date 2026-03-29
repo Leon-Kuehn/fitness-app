@@ -174,6 +174,7 @@ export default function ProgressPage() {
   ];
 
   return (
+    <>
     <div className="space-y-6">
       {/* Header */}
       <div>
@@ -394,7 +395,7 @@ export default function ProgressPage() {
         </Card>
       )}
     </div>
-    
+
       {showLogModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
           <div className="w-full max-w-sm rounded-2xl bg-[#1a1a1a] border border-[#2a2a2a] p-6 space-y-4">
@@ -413,5 +414,6 @@ export default function ProgressPage() {
           </div>
         </div>
       )}
+    </>
   );
 }
