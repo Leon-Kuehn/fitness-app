@@ -60,38 +60,39 @@ export default function ProfilePage() {
 
   const unlockedAchievements = mockAchievements.filter((a) => a.unlocked);
 
+  const fields: { label: string; key: keyof ProfileData; type: string; suffix?: string }[] = [
+    { label: "Name", key: "name", type: "text" },
+    { label: "Alter", key: "age", type: "number", suffix: "Jahre" },
+    { label: "Größe", key: "height", type: "number", suffix: "cm" },
+    { label: "Gewicht", key: "weight", type: "number", suffix: "kg" },
+  ];
+
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-6">
+      {/* Header */}
       <div>
         <h1 className="text-2xl font-bold text-[#f5f5f5]">Profil</h1>
         <p className="text-sm text-[#737373] mt-1">Deine persönlichen Fitnessdaten</p>
       </div>
 
-      {/* Profile Header */}
+      {/* Profile Header Card */}
       <Card>
-        <CardContent className="pt-6 pb-4">
-          <div className="flex items-center gap-4">
-            <div className="flex h-20 w-20 items-center justify-center rounded-full bg-gradient-to-br from-[#6366f1] to-[#8b5cf6] shrink-0">
-              <span className="text-3xl font-bold text-white">{profile.name.charAt(0)}</span>
+        <CardContent className="pt-6">
+          <div className="flex items-start gap-4">
+            <div className="w-16 h-16 rounded-full bg-[#6366f1] flex items-center justify-center text-2xl font-bold text-white shrink-0">
+              {profile.name.charAt(0)}
             </div>
             <div className="flex-1 min-w-0">
-              <h2 className="text-xl font-bold text-[#f5f5f5] truncate">{profile.name}</h2>
-              <Badge variant="default" className="mt-1 text-xs">{profile.goal}</Badge>
+              <h2 className="text-xl font-bold text-[#f5f5f5]">{profile.name}</h2>
+              <p className="text-sm text-[#737373]">{profile.goal}</p>
               <div className="flex items-center gap-2 mt-2">
-                <span className="text-xs text-[#737373]">Level {CURRENT_LEVEL}</span>
-                <div className="flex-1 h-1.5 bg-[#1f2937] rounded-full overflow-hidden max-w-[120px]">
-                  <div
-                    className="h-full bg-[#6366f1] rounded-full transition-all"
-                    style={{ width: `${(XP_TOTAL / XP_NEXT_LEVEL) * 100}%` }}
-                  />
-                </div>
+                <Badge variant="outline" className="text-xs">Level {CURRENT_LEVEL}</Badge>
                 <span className="text-xs text-[#737373]">{XP_TOTAL} / {XP_NEXT_LEVEL} XP</span>
               </div>
             </div>
             {!editMode && (
-              <Button variant="outline" size="sm" onClick={() => setEditMode(true)} className="shrink-0 gap-1.5">
-                <Edit2 className="h-3.5 w-3.5" />
-                Bearbeiten
+              <Button size="sm" variant="outline" onClick={() => setEditMode(true)} className="shrink-0 gap-1.5">
+                <Edit2 className="h-3.5 w-3.5" /> Bearbeiten
               </Button>
             )}
           </div>
@@ -100,18 +101,15 @@ export default function ProfilePage() {
 
       {/* Edit Form */}
       <Card>
-        <CardHeader>
+        <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-base flex items-center gap-2">
-              <User className="h-4 w-4 text-[#6366f1]" />
-              Persönliche Daten
-            </CardTitle>
+            <CardTitle className="text-base">Persönliche Daten</CardTitle>
             {editMode && (
               <div className="flex gap-2">
-                <Button size="sm" onClick={handleSave} className="gap-1.5 h-7 text-xs">
+                <Button size="sm" onClick={handleSave} className="gap-1.5">
                   <Save className="h-3.5 w-3.5" /> Speichern
                 </Button>
-                <Button size="sm" variant="ghost" onClick={handleCancel} className="gap-1.5 h-7 text-xs text-[#737373]">
+                <Button size="sm" variant="outline" onClick={handleCancel} className="gap-1.5">
                   <X className="h-3.5 w-3.5" /> Abbrechen
                 </Button>
               </div>
@@ -119,16 +117,9 @@ export default function ProfilePage() {
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          {(
-            [
-              { label: "Name", key: "name" as const, type: "text", suffix: undefined },
-              { label: "Age", key: "age" as const, type: "number", suffix: "years" },
-              { label: "Height", key: "height" as const, type: "number", suffix: "cm" },
-              { label: "Weight", key: "weight" as const, type: "number", suffix: "kg" },
-            ]
-          ).map(({ label, key, type, suffix }) => (
+          {fields.map(({ label, key, type, suffix }) => (
             <div key={key} className="flex items-center justify-between">
-              <span className="text-sm text-[#737373] w-24">{label}</span>
+              <span className="text-sm text-[#737373]">{label}</span>
               {editMode ? (
                 <input
                   type={type}
@@ -144,9 +135,9 @@ export default function ProfilePage() {
             </div>
           ))}
 
-          {/* Gender select */}
+          {/* Gender */}
           <div className="flex items-center justify-between">
-            <span className="text-sm text-[#737373] w-24">Geschlecht</span>
+            <span className="text-sm text-[#737373]">Geschlecht</span>
             {editMode ? (
               <select
                 value={draft.gender}
@@ -160,9 +151,9 @@ export default function ProfilePage() {
             )}
           </div>
 
-          {/* Goal select */}
+          {/* Goal */}
           <div className="flex items-center justify-between">
-            <span className="text-sm text-[#737373] w-24">Ziel</span>
+            <span className="text-sm text-[#737373]">Ziel</span>
             {editMode ? (
               <select
                 value={draft.goal}
@@ -172,7 +163,7 @@ export default function ProfilePage() {
                 {GOALS.map((g) => <option key={g} value={g}>{g}</option>)}
               </select>
             ) : (
-              <Badge variant="default" className="text-xs">{profile.goal}</Badge>
+              <span className="text-sm font-medium text-[#f5f5f5]">{profile.goal}</span>
             )}
           </div>
         </CardContent>
@@ -180,29 +171,26 @@ export default function ProfilePage() {
 
       {/* Stats */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
-            <Dumbbell className="h-4 w-4 text-[#6366f1]" />
-            Level & XP
-          </CardTitle>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">Level & XP</CardTitle>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="flex items-center justify-between">
             <span className="text-sm text-[#737373]">Aktuelles Level</span>
-            <Badge className="text-sm px-3 py-1">Level {CURRENT_LEVEL}</Badge>
+            <Badge>Level {CURRENT_LEVEL}</Badge>
           </div>
           <div className="flex items-center justify-between">
             <span className="text-sm text-[#737373]">Total XP</span>
-            <span className="text-sm font-medium text-[#f5f5f5]">{XP_TOTAL} XP</span>
+            <span className="text-sm font-semibold text-[#6366f1]">{XP_TOTAL} XP</span>
           </div>
-          <div className="space-y-1">
-            <div className="flex justify-between text-xs text-[#737373]">
-              <span>Progress to Level {CURRENT_LEVEL + 1}</span>
-              <span>{XP_TOTAL} / {XP_NEXT_LEVEL}</span>
+          <div>
+            <div className="flex items-center justify-between mb-1">
+              <span className="text-xs text-[#737373]">Fortschritt zu Level {CURRENT_LEVEL + 1}</span>
+              <span className="text-xs text-[#737373]">{XP_TOTAL} / {XP_NEXT_LEVEL}</span>
             </div>
             <div className="h-2 bg-[#1f2937] rounded-full overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-[#6366f1] to-[#8b5cf6] rounded-full transition-all"
+                className="h-full bg-[#6366f1] rounded-full transition-all duration-500"
                 style={{ width: `${Math.min((XP_TOTAL / XP_NEXT_LEVEL) * 100, 100)}%` }}
               />
             </div>
@@ -212,22 +200,15 @@ export default function ProfilePage() {
 
       {/* Achievements */}
       <Card>
-        <CardHeader>
-          <CardTitle className="text-base flex items-center gap-2">
-            <Award className="h-4 w-4 text-[#f59e0b]" />
-            Freigeschaltete Abzeichen ({unlockedAchievements.length})
-          </CardTitle>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-base">Freigeschaltete Abzeichen ({unlockedAchievements.length})</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 gap-3">
             {unlockedAchievements.map((achievement) => (
-              <div
-                key={achievement.id}
-                title={achievement.name}
-                className="flex flex-col items-center gap-1 p-2 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] hover:border-[#6366f1]/50 transition-colors"
-              >
+              <div key={achievement.name} className="flex items-center gap-3 p-3 bg-[#1f2937] rounded-xl">
                 <span className="text-2xl">{achievement.icon}</span>
-                <p className="text-[10px] text-[#737373] text-center leading-tight line-clamp-2">{achievement.name}</p>
+                <span className="text-sm font-medium text-[#f5f5f5]">{achievement.name}</span>
               </div>
             ))}
           </div>
