@@ -8,6 +8,7 @@ import { CookieConsentProvider } from "@/components/ui/CookieBanner";
 import { LayoutClient } from "@/components/layout/LayoutClient";
 import { PWAInstaller } from "@/components/PWAInstaller";
 import { InstallPrompt } from "@/components/ui/InstallPrompt";
+import { GithubPagesRedirect } from "@/components/GithubPagesRedirect";
 
 export const metadata: Metadata = {
   title: { default: "FitTrack", template: "%s | FitTrack" },
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </LanguageProvider>
         <PWAInstaller />
         <InstallPrompt />
+        <GithubPagesRedirect />
       </body>
     </html>
   );
