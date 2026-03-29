@@ -6,21 +6,21 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { mockGymFinderGyms } from "@/lib/mock-data";
 
-type Goal = "Abnehmen" | "Muskelaufbau" | "Ausdauer" | "Fit bleiben" | null;
-type Level = "Beginner" | "Fortgeschritten" | "Profi" | null;
+type Goal = "Lose Weight" | "Build Muscle" | "Endurance" | "Stay Fit" | null;
+type Level = "Beginner" | "Intermediate" | "Advanced" | null;
 type Frequency = "2" | "3" | "4" | "5+" | null;
 
 const GOALS: { label: Goal; icon: string; desc: string }[] = [
-  { label: "Abnehmen", icon: "🔥", desc: "Kalorien verbrennen & Gewicht verlieren" },
-  { label: "Muskelaufbau", icon: "💪", desc: "Muskelmasse aufbauen & stärker werden" },
-  { label: "Ausdauer", icon: "🏃", desc: "Ausdauer & Kondition verbessern" },
-  { label: "Fit bleiben", icon: "🎯", desc: "Gesund & aktiv bleiben" },
+  { label: "Lose Weight", icon: "🔥", desc: "Burn calories & lose weight" },
+  { label: "Build Muscle", icon: "💪", desc: "Build muscle mass & get stronger" },
+  { label: "Endurance", icon: "🏃", desc: "Improve cardio & stamina" },
+  { label: "Stay Fit", icon: "🎯", desc: "Stay healthy & active" },
 ];
 
 const LEVELS: { label: Level; icon: string; desc: string }[] = [
-  { label: "Beginner", icon: "🌱", desc: "Ich fange gerade an" },
-  { label: "Fortgeschritten", icon: "⚡", desc: "Ich trainiere regelmäßig" },
-  { label: "Profi", icon: "🏆", desc: "Ich trainiere intensiv" },
+  { label: "Beginner", icon: "🌱", desc: "Just getting started" },
+  { label: "Intermediate", icon: "⚡", desc: "Training regularly" },
+  { label: "Advanced", icon: "🏆", desc: "Training intensively" },
 ];
 
 const FREQS: Frequency[] = ["2", "3", "4", "5+"];
@@ -73,10 +73,10 @@ export default function OnboardingPage() {
         {/* Progress */}
         <div className="space-y-2">
           <div className="flex items-center justify-between text-xs text-[#737373]">
-            <span>Schritt {step} von {TOTAL_STEPS}</span>
+            <span>Step {step} of {TOTAL_STEPS}</span>
             {step > 1 && (
               <button onClick={back} className="flex items-center gap-1 hover:text-[#f5f5f5] transition-colors">
-                <ChevronLeft className="h-3 w-3" /> Zurück
+                <ChevronLeft className="h-3 w-3" /> Back
               </button>
             )}
           </div>
@@ -88,28 +88,28 @@ export default function OnboardingPage() {
           key={step}
           className="animate-fade-in bg-[#1a1a1a] rounded-2xl p-6 border border-[#2a2a2a] space-y-6"
         >
-          {/* Step 1: Willkommen */}
+          {/* Step 1: Welcome */}
           {step === 1 && (
             <div className="text-center space-y-4">
               <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-[#6366f1] mx-auto">
                 <Dumbbell className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-[#f5f5f5]">Willkommen bei FitTrack!</h1>
-                <p className="text-[#737373] mt-2">Dein persönlicher Fitness-Begleiter. Lass uns dein Profil einrichten.</p>
+                <h1 className="text-2xl font-bold text-[#f5f5f5]">Welcome to FitTrack!</h1>
+                <p className="text-[#737373] mt-2">Your personal fitness companion. Let&apos;s set up your profile.</p>
               </div>
               <Button className="w-full gap-2" onClick={next}>
-                Jetzt starten <ChevronRight className="h-4 w-4" />
+                Get started <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
           )}
 
-          {/* Step 2: Ziel */}
+          {/* Step 2: Goal */}
           {step === 2 && (
             <div className="space-y-4">
               <div className="text-center">
-                <h2 className="text-xl font-bold text-[#f5f5f5]">Was ist dein Ziel?</h2>
-                <p className="text-sm text-[#737373] mt-1">Wähle dein primäres Fitnessziel</p>
+                <h2 className="text-xl font-bold text-[#f5f5f5]">What is your goal?</h2>
+                <p className="text-sm text-[#737373] mt-1">Choose your primary fitness goal</p>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 {GOALS.map(({ label, icon, desc }) => (
@@ -130,7 +130,7 @@ export default function OnboardingPage() {
                 ))}
               </div>
               <Button className="w-full" onClick={next} disabled={!profile.goal}>
-                Weiter <ChevronRight className="h-4 w-4 ml-2" />
+                Continue <ChevronRight className="h-4 w-4 ml-2" />
               </Button>
             </div>
           )}
@@ -139,8 +139,8 @@ export default function OnboardingPage() {
           {step === 3 && (
             <div className="space-y-4">
               <div className="text-center">
-                <h2 className="text-xl font-bold text-[#f5f5f5]">Dein Fitnesslevel</h2>
-                <p className="text-sm text-[#737373] mt-1">Wie erfahren bist du?</p>
+                <h2 className="text-xl font-bold text-[#f5f5f5]">Your fitness level</h2>
+                <p className="text-sm text-[#737373] mt-1">How experienced are you?</p>
               </div>
               <div className="space-y-3">
                 {LEVELS.map(({ label, icon, desc }) => (
@@ -164,17 +164,17 @@ export default function OnboardingPage() {
                 ))}
               </div>
               <Button className="w-full" onClick={next} disabled={!profile.level}>
-                Weiter <ChevronRight className="h-4 w-4 ml-2" />
+                Continue <ChevronRight className="h-4 w-4 ml-2" />
               </Button>
             </div>
           )}
 
-          {/* Step 4: Frequenz */}
+          {/* Step 4: Frequency */}
           {step === 4 && (
             <div className="space-y-4">
               <div className="text-center">
-                <h2 className="text-xl font-bold text-[#f5f5f5]">Trainingsfrequenz</h2>
-                <p className="text-sm text-[#737373] mt-1">Wie viele Tage pro Woche möchtest du trainieren?</p>
+                <h2 className="text-xl font-bold text-[#f5f5f5]">Training frequency</h2>
+                <p className="text-sm text-[#737373] mt-1">How many days per week do you want to train?</p>
               </div>
               <div className="flex gap-3 justify-center flex-wrap">
                 {FREQS.map((f) => (
@@ -189,22 +189,22 @@ export default function OnboardingPage() {
                     )}
                   >
                     {f}
-                    <span className="text-xs font-normal mt-1">Tage</span>
+                    <span className="text-xs font-normal mt-1">days</span>
                   </button>
                 ))}
               </div>
               <Button className="w-full" onClick={next} disabled={!profile.frequency}>
-                Weiter <ChevronRight className="h-4 w-4 ml-2" />
+                Continue <ChevronRight className="h-4 w-4 ml-2" />
               </Button>
             </div>
           )}
 
-          {/* Step 5: Studio */}
+          {/* Step 5: Gym */}
           {step === 5 && (
             <div className="space-y-4">
               <div className="text-center">
-                <h2 className="text-xl font-bold text-[#f5f5f5]">Verbinde dein Studio</h2>
-                <p className="text-sm text-[#737373] mt-1">Optional – du kannst das auch später tun</p>
+                <h2 className="text-xl font-bold text-[#f5f5f5]">Connect your gym</h2>
+                <p className="text-sm text-[#737373] mt-1">Optional — you can do this later too</p>
               </div>
               <div className="space-y-2 max-h-[300px] overflow-y-auto">
                 {mockGymFinderGyms.map((gym) => (
@@ -227,30 +227,30 @@ export default function OnboardingPage() {
                 ))}
               </div>
               <Button className="w-full" onClick={next}>
-                Weiter <ChevronRight className="h-4 w-4 ml-2" />
+                Continue <ChevronRight className="h-4 w-4 ml-2" />
               </Button>
               <button onClick={next} className="w-full text-center text-xs text-[#737373] hover:text-[#f5f5f5] transition-colors">
-                Überspringen
+                Skip for now
               </button>
             </div>
           )}
 
-          {/* Step 6: Fertig */}
+          {/* Step 6: Done */}
           {step === 6 && (
             <div className="text-center space-y-4">
               <div className="text-5xl animate-bounce">🎉</div>
               <div>
-                <h2 className="text-2xl font-bold text-[#f5f5f5]">Alles bereit!</h2>
-                <p className="text-[#737373] mt-2">Dein FitTrack-Profil ist eingerichtet.</p>
+                <h2 className="text-2xl font-bold text-[#f5f5f5]">All set!</h2>
+                <p className="text-[#737373] mt-2">Your FitTrack profile is ready.</p>
               </div>
               <div className="bg-[#0f0f0f] rounded-xl p-4 space-y-2 text-sm text-left">
-                {profile.goal && <div className="flex justify-between"><span className="text-[#737373]">Ziel:</span><span className="text-[#f5f5f5]">{profile.goal}</span></div>}
+                {profile.goal && <div className="flex justify-between"><span className="text-[#737373]">Goal:</span><span className="text-[#f5f5f5]">{profile.goal}</span></div>}
                 {profile.level && <div className="flex justify-between"><span className="text-[#737373]">Level:</span><span className="text-[#f5f5f5]">{profile.level}</span></div>}
-                {profile.frequency && <div className="flex justify-between"><span className="text-[#737373]">Training:</span><span className="text-[#f5f5f5]">{profile.frequency}× / Woche</span></div>}
-                {profile.gymId && <div className="flex justify-between"><span className="text-[#737373]">Studio:</span><span className="text-[#f5f5f5]">{mockGymFinderGyms.find((g) => g.id === profile.gymId)?.name}</span></div>}
+                {profile.frequency && <div className="flex justify-between"><span className="text-[#737373]">Frequency:</span><span className="text-[#f5f5f5]">{profile.frequency}× / week</span></div>}
+                {profile.gymId && <div className="flex justify-between"><span className="text-[#737373]">Gym:</span><span className="text-[#f5f5f5]">{mockGymFinderGyms.find((g) => g.id === profile.gymId)?.name}</span></div>}
               </div>
               <Button className="w-full gap-2" onClick={finish}>
-                <Check className="h-4 w-4" /> Zum Dashboard
+                <Check className="h-4 w-4" /> Go to Dashboard
               </Button>
             </div>
           )}

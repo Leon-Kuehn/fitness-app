@@ -15,7 +15,7 @@ export function Footer() {
   if (pathname?.startsWith("/admin")) return null;
 
   return (
-    <footer className="lg:ml-60 border-t border-[#2a2a2a] bg-[#0f0f0f] py-6 px-4 lg:px-6">
+    <footer className="border-t border-[#2a2a2a] bg-[#0f0f0f] py-6 px-4 lg:px-6">
       <div className="mx-auto max-w-5xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <nav className="flex flex-wrap gap-x-4 gap-y-1">
