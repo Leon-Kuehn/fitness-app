@@ -2,9 +2,10 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
-  Dumbbell, LayoutDashboard, Calendar, BookOpen, UtensilsCrossed,
-  TrendingUp, Sparkles, FolderOpen, Building2, ShieldCheck, LogOut, LogIn,
-  Settings, ChevronLeft, ChevronRight, MapPin, Trophy, Clock, UserCircle,
+  Dumbbell, LayoutDashboard, BookOpen, UtensilsCrossed,
+  TrendingUp, Sparkles, FolderOpen, ShieldCheck, LogOut, LogIn,
+  Settings, ChevronLeft, ChevronRight, MapPin, Trophy, UserCircle,
+  Calendar,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
@@ -23,19 +24,42 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
 
   const handleLogout = () => { router.push("/logout"); };
 
-  const navItems = [
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : (pathname ?? "").startsWith(href);
+
+  const navLink = (href: string, label: string, Icon: React.ComponentType<{ className?: string }>) => (
+    <Link
+      key={href}
+      href={href}
+      title={collapsed ? label : undefined}
+      aria-current={isActive(href) ? "page" : undefined}
+      className={cn(
+        "flex items-center rounded-lg px-3 py-2 text-sm font-medium transition-colors",
+        collapsed ? "justify-center" : "gap-3",
+        isActive(href)
+          ? "bg-[#6366f1]/10 text-[#6366f1]"
+          : "text-[#737373] hover:bg-[#242424] hover:text-[#f5f5f5]"
+      )}
+    >
+      <Icon className="h-4 w-4 shrink-0" />
+      {!collapsed && label}
+    </Link>
+  );
+
+  const coreNav = [
     { href: "/", label: t("dashboard"), icon: LayoutDashboard },
     { href: "/workout", label: t("workout"), icon: Dumbbell },
-    { href: "/history", label: t("history"), icon: Clock },
     { href: "/plans", label: t("plans"), icon: FolderOpen },
-    { href: "/calendar", label: t("calendar"), icon: Calendar },
-    { href: "/exercises", label: t("exercises"), icon: BookOpen },
+    { href: "/progress", label: t("progress"), icon: TrendingUp },
+    { href: "/exercises", label: t("library"), icon: BookOpen },
+  ];
+
+  const secondaryNav = [
     { href: "/nutrition", label: t("nutrition"), icon: UtensilsCrossed },
-    { href: "/metrics", label: t("metrics"), icon: TrendingUp },
+    { href: "/calendar", label: t("calendar"), icon: Calendar },
     { href: "/ai", label: t("aiCoach"), icon: Sparkles },
     { href: "/achievements", label: t("achievements"), icon: Trophy },
     { href: "/gyms", label: t("gymFinder"), icon: MapPin },
-    { href: "/profile", label: "Profil", icon: UserCircle },
   ];
 
   return (
@@ -59,101 +83,37 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
       </div>
 
       {/* Nav */}
-      <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-1">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              title={collapsed ? item.label : undefined}
-              className={cn(
-                "flex items-center rounded-lg px-3 py-2 text-sm transition-colors",
-                collapsed ? "justify-center gap-0" : "gap-3",
-                isActive
-                  ? "bg-[#6366f1]/15 text-[#6366f1]"
-                  : "text-[#737373] hover:bg-[#242424] hover:text-[#f5f5f5]"
-              )}
-            >
-              <Icon className="h-4 w-4 shrink-0" />
-              {!collapsed && item.label}
-            </Link>
-          );
-        })}
+      <nav className="flex-1 overflow-y-auto px-2 py-4 space-y-0.5" aria-label="Main navigation">
+        {/* Core navigation */}
+        {coreNav.map(({ href, label, icon: Icon }) => navLink(href, label, Icon))}
 
-        {role && (
-          <Link
-            href="/gym"
-            title={collapsed ? t("myGym") : undefined}
-            className={cn(
-              "flex items-center rounded-lg px-3 py-2 text-sm transition-colors",
-              collapsed ? "justify-center gap-0" : "gap-3",
-              pathname === "/gym"
-                ? "bg-[#6366f1]/15 text-[#6366f1]"
-                : "text-[#737373] hover:bg-[#242424] hover:text-[#f5f5f5]"
-            )}
-          >
-            <Building2 className="h-4 w-4 shrink-0" />
-            {!collapsed && t("myGym")}
-          </Link>
+        {/* Divider */}
+        {!collapsed && (
+          <p className="px-3 pt-4 pb-1 text-[10px] font-semibold uppercase tracking-widest text-[#404040]">
+            More
+          </p>
         )}
+        {collapsed && <div className="my-2 mx-3 border-t border-[#2a2a2a]" />}
 
-        {role === "gym_admin" && (
-          <Link
-            href="/admin"
-            title={collapsed ? t("admin") : undefined}
-            className={cn(
-              "flex items-center rounded-lg px-3 py-2 text-sm transition-colors",
-              collapsed ? "justify-center gap-0" : "gap-3",
-              pathname === "/admin"
-                ? "bg-[#6366f1]/15 text-[#6366f1]"
-                : "text-[#737373] hover:bg-[#242424] hover:text-[#f5f5f5]"
-            )}
-          >
-            <ShieldCheck className="h-4 w-4 shrink-0" />
-            {!collapsed && t("admin")}
-          </Link>
-        )}
+        {/* Secondary navigation */}
+        {secondaryNav.map(({ href, label, icon: Icon }) => navLink(href, label, Icon))}
+
+        {role === "gym_admin" && navLink("/admin", t("admin"), ShieldCheck)}
       </nav>
 
-      {/* Bottom section */}
-      <div className="px-2 py-4 border-t border-[#2a2a2a] space-y-1">
-        {/* Settings */}
-        <Link
-          href="/settings"
-          title={collapsed ? t("settings") : undefined}
-          className={cn(
-            "flex items-center rounded-lg px-3 py-2 text-sm transition-colors",
-            collapsed ? "justify-center gap-0" : "gap-3",
-            pathname === "/settings"
-              ? "bg-[#6366f1]/15 text-[#6366f1]"
-              : "text-[#737373] hover:bg-[#242424] hover:text-[#f5f5f5]"
-          )}
-        >
-          <Settings className="h-4 w-4 shrink-0" />
-          {!collapsed && t("settings")}
-        </Link>
+      {/* Bottom section — account */}
+      <div className="px-2 py-4 border-t border-[#2a2a2a] space-y-0.5">
+        {navLink("/settings", t("settings"), Settings)}
 
         {user ? (
           <>
-            {!collapsed && (
-              <Link href="/profile" className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[#242424] transition-colors group">
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#6366f1]/20 shrink-0">
-                  <span className="text-xs font-semibold text-[#6366f1]">{user.name.charAt(0)}</span>
-                </div>
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-medium text-[#f5f5f5] truncate group-hover:text-[#6366f1] transition-colors">{user.name}</p>
-                  <p className="text-[10px] text-[#737373] truncate">Profil ansehen</p>
-                </div>
-              </Link>
-            )}
+            {navLink("/profile", t("profile"), UserCircle)}
             <button
               onClick={handleLogout}
               title={collapsed ? t("signOut") : undefined}
               className={cn(
-                "flex w-full items-center rounded-lg px-3 py-2 text-sm text-[#737373] hover:bg-[#242424] hover:text-[#f5f5f5] transition-colors",
-                collapsed ? "justify-center gap-0" : "gap-3"
+                "flex w-full items-center rounded-lg px-3 py-2 text-sm font-medium text-[#737373] hover:bg-[#242424] hover:text-[#f5f5f5] transition-colors",
+                collapsed ? "justify-center" : "gap-3"
               )}
             >
               <LogOut className="h-4 w-4 shrink-0" />
@@ -161,27 +121,17 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
             </button>
           </>
         ) : (
-          <Link
-            href="/login"
-            title={collapsed ? t("login") : undefined}
-            className={cn(
-              "flex items-center rounded-lg px-3 py-2 text-sm text-[#737373] hover:bg-[#242424] hover:text-[#f5f5f5] transition-colors",
-              collapsed ? "justify-center gap-0" : "gap-3"
-            )}
-          >
-            <LogIn className="h-4 w-4 shrink-0" />
-            {!collapsed && t("login")}
-          </Link>
+          navLink("/login", t("login"), LogIn)
         )}
 
         {/* Collapse toggle */}
         <button
           onClick={onToggleCollapse}
-          title={collapsed ? "Erweitern" : "Einklappen"}
-          aria-label={collapsed ? "Sidebar erweitern" : "Sidebar einklappen"}
+          title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           className={cn(
             "flex w-full items-center rounded-lg px-3 py-2 text-sm text-[#737373] hover:bg-[#242424] hover:text-[#f5f5f5] transition-colors",
-            collapsed ? "justify-center gap-0" : "gap-3"
+            collapsed ? "justify-center" : "gap-3"
           )}
         >
           {collapsed ? (
@@ -189,7 +139,7 @@ export function Sidebar({ collapsed, onToggleCollapse }: SidebarProps) {
           ) : (
             <>
               <ChevronLeft className="h-4 w-4 shrink-0" />
-              Einklappen
+              Collapse
             </>
           )}
         </button>

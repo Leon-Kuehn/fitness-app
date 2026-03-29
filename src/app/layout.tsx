@@ -5,7 +5,6 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { CookieConsentProvider } from "@/components/ui/CookieBanner";
-import { Footer } from "@/components/layout/Footer";
 import { LayoutClient } from "@/components/layout/LayoutClient";
 import { PWAInstaller } from "@/components/PWAInstaller";
 import { InstallPrompt } from "@/components/ui/InstallPrompt";
@@ -28,7 +27,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="de" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <head>
         <link rel="apple-touch-icon" href="/fitness-app/icon-192.png" />
       </head>
@@ -37,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:p-4 focus:bg-[#6366f1] focus:text-white focus:top-0 focus:left-0"
         >
-          Zum Hauptinhalt springen
+          Skip to main content
         </a>
         <LanguageProvider>
           <ThemeProvider>
@@ -45,7 +44,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <CookieConsentProvider>
                 <LayoutClient>{children}</LayoutClient>
                 <BottomNav />
-                <Footer />
               </CookieConsentProvider>
             </AuthProvider>
           </ThemeProvider>

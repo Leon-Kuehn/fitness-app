@@ -122,9 +122,9 @@ export default function ProfilePage() {
           {(
             [
               { label: "Name", key: "name" as const, type: "text", suffix: undefined },
-              { label: "Alter", key: "age" as const, type: "number", suffix: "Jahre" },
-              { label: "Größe", key: "height" as const, type: "number", suffix: "cm" },
-              { label: "Gewicht", key: "weight" as const, type: "number", suffix: "kg" },
+              { label: "Age", key: "age" as const, type: "number", suffix: "years" },
+              { label: "Height", key: "height" as const, type: "number", suffix: "cm" },
+              { label: "Weight", key: "weight" as const, type: "number", suffix: "kg" },
             ]
           ).map(({ label, key, type, suffix }) => (
             <div key={key} className="flex items-center justify-between">
@@ -192,12 +192,12 @@ export default function ProfilePage() {
             <Badge className="text-sm px-3 py-1">Level {CURRENT_LEVEL}</Badge>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-[#737373]">Gesamt-XP</span>
+            <span className="text-sm text-[#737373]">Total XP</span>
             <span className="text-sm font-medium text-[#f5f5f5]">{XP_TOTAL} XP</span>
           </div>
           <div className="space-y-1">
             <div className="flex justify-between text-xs text-[#737373]">
-              <span>Fortschritt zu Level {CURRENT_LEVEL + 1}</span>
+              <span>Progress to Level {CURRENT_LEVEL + 1}</span>
               <span>{XP_TOTAL} / {XP_NEXT_LEVEL}</span>
             </div>
             <div className="h-2 bg-[#1f2937] rounded-full overflow-hidden">

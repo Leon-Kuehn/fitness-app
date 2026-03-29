@@ -192,11 +192,11 @@ export default function GymsPage() {
             <span className="text-xs text-[#737373]">{filteredGyms.length} Studios</span>
             <button
               onClick={toggleList}
-              aria-label="Gym-Liste einklappen"
+              aria-label="Collapse gym list"
               className="flex items-center gap-1 text-xs text-[#737373] hover:text-[#f5f5f5] transition-colors"
             >
               <ChevronsLeft className="h-4 w-4" />
-              Einklappen
+              Collapse
             </button>
           </div>
           <div className="space-y-3 lg:max-h-[calc(100vh-theme(spacing.48))] lg:overflow-y-auto lg:pr-1">

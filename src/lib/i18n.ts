@@ -6,6 +6,8 @@ const translations = {
     dashboard: "Dashboard",
     workout: "Training",
     plans: "Pläne",
+    progress: "Fortschritt",
+    library: "Bibliothek",
     calendar: "Kalender",
     exercises: "Übungen",
     nutrition: "Ernährung",
@@ -17,6 +19,7 @@ const translations = {
     achievements: "Erfolge",
     history: "Verlauf",
     settings: "Einstellungen",
+    profile: "Profil",
     signOut: "Abmelden",
     login: "Anmelden",
     // Footer
@@ -79,6 +82,8 @@ const translations = {
     dashboard: "Dashboard",
     workout: "Workout",
     plans: "Plans",
+    progress: "Progress",
+    library: "Library",
     calendar: "Calendar",
     exercises: "Exercises",
     nutrition: "Nutrition",
@@ -90,6 +95,7 @@ const translations = {
     achievements: "Achievements",
     history: "History",
     settings: "Settings",
+    profile: "Profile",
     signOut: "Sign Out",
     login: "Login",
     // Footer
