@@ -114,7 +114,7 @@ export default function GymMap({ gyms, activeGymId, onGymSelect }: GymMapProps) 
                 )}
                 <div style={{ marginTop: "8px", display: "flex", gap: "6px" }}>
                   <a
-                    href={`/gym`}
+                                      href={`/fitness-app/gym/${gym.id}`}
                     style={{ background: "#6366f1", color: "#fff", padding: "4px 10px", borderRadius: "4px", fontSize: "12px", textDecoration: "none" }}
                   >
                     Mehr Details
