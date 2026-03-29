@@ -33,16 +33,8 @@ function getGreeting(lang: "de" | "en", hour: number): string {
   return "Good Evening";
 }
 
-function getWeeklyWorkoutCount(): number {
-  const oneWeekAgo = subDays(new Date(), 7);
-  return mockWorkouts.filter(
-    (w) => w.completed && isAfter(new Date(w.date), oneWeekAgo)
-  ).length;
-}
-
 const CALORIE_GOAL = 2200;
 const MONTHLY_GOAL_PCT = 68;
-const TOTAL_VOLUME_LBS = 12400;
 
 export default function DashboardPage() {
   const { user } = useAuth();
@@ -61,8 +53,12 @@ export default function DashboardPage() {
   const today = mockNutritionDays[0];
   const recentWorkouts = mockWorkouts.slice(0, 3);
 
-  // suppress unused var warning — weeklyWorkouts is computed for potential future use
-  void getWeeklyWorkoutCount();
+  // Computed only after mount to avoid SSR mismatch
+  const weeklyWorkouts = mounted
+    ? mockWorkouts.filter(
+        (w) => w.completed && isAfter(new Date(w.date), subDays(now, 7))
+      ).length
+    : 0;
 
   return (
     <div className="space-y-6">
@@ -132,13 +128,13 @@ export default function DashboardPage() {
           </span>
         </Card>
 
-        {/* Volume */}
+        {/* Weekly Workouts */}
         <Card className="flex flex-col gap-1 py-5 px-4">
           <span
             className="uppercase font-semibold"
             style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)", letterSpacing: "0.08em" }}
           >
-            {isDE ? "Volumen" : "Volume"}
+            {isDE ? "Workouts/Woche" : "Workouts/Week"}
           </span>
           <span
             className="font-extrabold leading-none"
@@ -148,9 +144,11 @@ export default function DashboardPage() {
               color: "var(--color-primary)",
             }}
           >
-            {(TOTAL_VOLUME_LBS / 1000).toFixed(1)}k
+            {weeklyWorkouts}
           </span>
-          <span style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)" }}>lbs</span>
+          <span style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)" }}>
+            {isDE ? "diese Woche" : "this week"}
+          </span>
         </Card>
 
         {/* Monthly Goal */}
