@@ -1,66 +1,35 @@
-name: 💡 Feature Request
-description: Suggest a new feature or improvement for FitFlow
+name: 🚀 Feature Request
+description: Schlage eine neue Funktion vor
 title: "[Feature]: "
-labels: ["enhancement", "needs-triage"]
-assignees: []
+labels: ["enhancement"]
 body:
-  - type: markdown
-    attributes:
-      value: |
-        Thanks for suggesting a feature! Great ideas make FitFlow better for everyone.
-
   - type: textarea
     id: problem
     attributes:
       label: Problem / Motivation
-      description: What problem does this feature solve? Why do you need it?
-      placeholder: "I'm always frustrated when..."
+      description: Welches Problem soll diese Funktion lösen?
+      placeholder: "Als Nutzer möchte ich..."
     validations:
       required: true
-
   - type: textarea
     id: solution
     attributes:
-      label: Proposed Solution
-      description: Describe the feature you'd like to see.
+      label: Vorgeschlagene Lösung
+      description: Wie stellst du dir die Umsetzung vor?
     validations:
       required: true
-
   - type: textarea
     id: alternatives
     attributes:
-      label: Alternatives Considered
-      description: Have you considered any alternative solutions?
-
-  - type: dropdown
-    id: category
-    attributes:
-      label: Feature Category
-      options:
-        - Workout Tracking
-        - Nutrition / Macros
-        - Progress and Analytics
-        - Exercise Library
-        - UI / UX Improvement
-        - Performance
-        - Accessibility
-        - Other
-    validations:
-      required: true
-
+      label: Alternativen
+      description: Hast du andere Möglichkeiten in Betracht gezogen?
   - type: dropdown
     id: priority
     attributes:
-      label: Priority
+      label: Priorität
       options:
-        - High - Core functionality
-        - Medium - Nice to have
-        - Low - Minor improvement
+        - Hoch
+        - Mittel
+        - Niedrig
     validations:
       required: true
-
-  - type: textarea
-    id: additional
-    attributes:
-      label: Additional Context
-      description: Add any mockups, screenshots or extra context.

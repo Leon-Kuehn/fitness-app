@@ -1,72 +1,29 @@
-## Description
+## 📋 Beschreibung
 
-<!-- Briefly describe what this PR does and why. -->
+<!-- Was wurde geändert und warum? -->
 
-Closes #<!-- issue number -->
+## 🔗 Verknüpfte Issues
 
----
+Closes #
 
-## Type of Change
+## 🧪 Typ der Änderung
 
-<!-- Put an `x` in the boxes that apply -->
+- [ ] 🐛 Bug Fix
+- [ ] 🚀 Neues Feature
+- [ ] ♻️ Refactoring
+- [ ] 📝 Dokumentation
+- [ ] 🔧 Konfiguration / CI
+- [ ] 💅 UI / Styling
 
-- [ ] `feat` - New feature
-- [ ] `fix` - Bug fix
-- [ ] `docs` - Documentation only
-- [ ] `style` - Formatting (no logic change)
-- [ ] `refactor` - Code restructuring
-- [ ] `test` - Adding/fixing tests
-- [ ] `chore` - Build, deps, tooling
-- [ ] `perf` - Performance improvement
-- [ ] `ci` - CI/CD changes
+## ✅ Checklist
 
----
+- [ ] Code selbst reviewed
+- [ ] Keine Console-Errors / Warnings
+- [ ] TypeScript-Fehler behoben
+- [ ] Responsive auf Mobile getestet
+- [ ] Tests laufen durch (falls vorhanden)
+- [ ] CHANGELOG.md aktualisiert
 
-## Changes Made
+## 📸 Screenshots (falls UI-Änderungen)
 
-<!-- List the key changes in this PR -->
-
-- 
-- 
-- 
-
----
-
-## Screenshots / Demo
-
-<!-- If this PR includes UI changes, add screenshots or a short demo GIF -->
-
-| Before | After |
-|--------|-------|
-| | |
-
----
-
-## Testing
-
-<!-- Describe how you tested your changes -->
-
-- [ ] Unit tests added/updated
-- [ ] Manual testing done
-- [ ] All existing tests pass (`npm run test`)
-- [ ] TypeScript compiles without errors (`npm run type-check`)
-- [ ] Linting passes (`npm run lint`)
-- [ ] Build succeeds (`npm run build`)
-
----
-
-## PR Checklist
-
-- [ ] PR targets the `develop` branch (NOT `main`)
-- [ ] Commit messages follow [Conventional Commits](https://www.conventionalcommits.org/)
-- [ ] Code follows the project's coding standards
-- [ ] Self-review completed
-- [ ] Documentation updated (if applicable)
-- [ ] No console.log or debug code left in
-- [ ] No hardcoded values or secrets
-
----
-
-## Additional Notes
-
-<!-- Anything else reviewers should know? -->
+<!-- Vorher / Nachher Screenshots einfügen -->

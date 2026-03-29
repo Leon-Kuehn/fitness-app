@@ -1,0 +1,37 @@
+# Automatisch verwaltete Labels (z.B. mit github-labeler Action)
+- name: bug
+  color: "d73a4a"
+  description: Etwas funktioniert nicht
+- name: enhancement
+  color: "a2eeef"
+  description: Neues Feature oder Verbesserung
+- name: documentation
+  color: "0075ca"
+  description: Verbesserungen oder Ergänzungen zur Dokumentation
+- name: good first issue
+  color: "7057ff"
+  description: Gut geeignet für Einsteiger
+- name: help wanted
+  color: "008672"
+  description: Hilfe erwünscht
+- name: triage
+  color: "e4e669"
+  description: Muss noch triagiert werden
+- name: wontfix
+  color: "ffffff"
+  description: Wird nicht bearbeitet
+- name: duplicate
+  color: "cfd3d7"
+  description: Bereits gemeldet
+- name: question
+  color: "d876e3"
+  description: Weitere Informationen erforderlich
+- name: security
+  color: "e11d48"
+  description: Sicherheitsrelevantes Problem
+- name: performance
+  color: "f97316"
+  description: Performance-bezogene Aufgabe
+- name: ui/ux
+  color: "8b5cf6"
+  description: UI oder UX Verbesserung
