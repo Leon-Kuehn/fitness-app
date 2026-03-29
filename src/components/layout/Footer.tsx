@@ -66,7 +66,7 @@ export function Footer() {
             </div>
 
             <a
-              href="https://github.com"
+                          href="https://github.com/Leon-Kuehn/fitness-app"
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#737373] hover:text-[#f5f5f5] transition-colors"
