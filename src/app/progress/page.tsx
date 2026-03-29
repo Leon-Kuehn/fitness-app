@@ -25,14 +25,6 @@ const MUSCLE_COLORS: Record<string, string> = {
   Biceps: "#3b82f6",
   Triceps: "#8b5cf6",
   Glutes: "#f97316",
-  // German fallbacks
-  Brust: "#6366f1",
-  Rücken: "#10b981",
-  Beine: "#f59e0b",
-  Schultern: "#ec4899",
-  Bizeps: "#3b82f6",
-  Trizeps: "#8b5cf6",
-  Gesäß: "#f97316",
 };
 
 const PERSONAL_RECORDS = [
