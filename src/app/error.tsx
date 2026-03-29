@@ -25,15 +25,15 @@ export default function Error({
         </div>
         <h1 className="text-xl font-bold text-[#f5f5f5]">Etwas ist schiefgelaufen</h1>
         <p className="text-sm text-[#737373]">
-          Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut oder gehe zurück zum Dashboard.
+          Ein unerwarteter Fehler ist aufgetreten. Bitte versuche es erneut oder gehe zurück.
         </p>
         <div className="flex gap-3 justify-center">
           <Button onClick={reset} variant="outline" className="text-sm">
             Erneut versuchen
           </Button>
-          <Link href="/">
+          <Link href="/plans">
             <Button className="text-sm">
-              Zurück zum Dashboard
+              Zurück zu Plans
             </Button>
           </Link>
         </div>
